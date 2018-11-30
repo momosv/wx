@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script>
+
+        function doPost(url)
+        {
+            $.post(url, {'key1':val1, 'key2':val2});
+        }
+        function doGet(url)
+        {
+            $.get(url);
+        }
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+
+        function silentGetOpenId(){
+            var code = getQueryString("code");
+            $.ajax({
+                async : false,
+                cache : false,
+                type : 'POST',
+                url : '/page/wx/valid' ,
+                dataType : "json",
+                data:{code:code},
+                error : function() {
+                    alert('smx失败 ');
+                },
+                success : function(data) {
+                    alert(data);
+                    getUserInfo(data.openid,data.access_token);
+                }
+
+            });
+        }
+
+        function getUserInfo(access_token,openid){
+            $.ajax({
+                async : false,
+                cache : false,
+                type : 'POST',
+                url : '/wx/getUserInfo' ,
+                dataType : "json",
+                data:{token:user_token,openid:openid},
+                error : function() {
+                    alert('smx失败 ');
+                },
+                success : function(data) {
+                    alert(data);
+                }
+            });
+        }
+      //  getUserInfo()
+        silentGetOpenId();
+        //window.open("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+    </script>
+</head>
+<body>
+aaa
+</body>
+</html>

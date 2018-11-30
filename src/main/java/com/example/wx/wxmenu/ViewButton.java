@@ -16,4 +16,11 @@ public class ViewButton extends  Button {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String toString() {
+        return "ViewButton{" +
+                "url='" + url + '\'' +
+                '}';
+    }
 }

@@ -1,9 +1,12 @@
 package com.example.wx.ctrl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.wx.entity.AccessToken;
 import com.example.wx.entity.TextMessage;
 import com.example.wx.util.CheckUtil;
 import com.example.wx.util.Message;
 import com.example.wx.util.MessageUtil;
+import com.example.wx.util.WXUtil;
 import org.dom4j.DocumentException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +29,40 @@ import java.util.Map;
 @RestController
 @RequestMapping("wx")
 public class WxCtrl {
+
+
+    @RequestMapping("getUserInfo")
+    public String getUserInfo(String token,String openid) throws IOException {
+       return   WXUtil.getUserByUserToken(token,openid).toJSONString();
+    }
+
+
+    @GetMapping("momo")
+    public String momo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        return "momo";
+    }
+
+    @GetMapping("flushToken")
+    public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            try {
+                AccessToken tk = WXUtil.getAccessToken();
+                System.out.println(tk.getToken());
+                System.out.println(tk.getExpiresIn());
+                WXUtil.TOKEN=tk.getToken();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "success";
+    }
+
+    @RequestMapping("createMenu")
+    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String menu = JSONObject.toJSONString(WXUtil.initMenu());
+        System.out.println(menu);
+        WXUtil.createMenu(WXUtil.TOKEN,menu);
+        return "success";
+    }
+
 
     @GetMapping("access")
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

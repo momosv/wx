@@ -34,12 +34,17 @@ import org.apache.http.util.EntityUtils;
 
 public class WXUtil {
     //从微信后台拿到APPID和APPSECRET 并封装为常量
+    public static  String TOKEN = "16_8GyWRn86IFNHoY5PeTqpvjFzVzdfZRKBrLhN7DIocjs-F3JQFmI-eocETnVo1ppKoD0Ljz7YuBw2Qd4W1ETO3j2C0zQpls08Csr5c5RNruz_xZtm8uobBujmj_qlyzA5GA88uk38ZYf6xmaBOKXiACAWSF";
+
     private static final String APPID = "wx550aceeb3b9271a4";
     private static final String APPSECRET = "2ec7cc8fa3c7c229c9244cf39affb31c";
     private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
     private static final String UPLOAD_URL = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type=TYPE";
-    public static final String TOKEN = "16_uq_rpxJGN0IivJ7KOv83MSVKian8OynV5vMazeWr6jhk7Al8Bb10zWMqniEF77Do6wobRWz9vUsToXAXfxp43HWvzWY3ilp3D-f2GVCjb2Ff9loTj1EmXP2fC7rA-8NXw3BtZ5GQFsOnE5O1TNFhAJAOIA";
     private static final String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
+    private static final String USER_DETAIL_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+    private static final String USER_DETAIL_URL_BY_USER_TOKEN = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+    private static final String USER_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+
 
     /**
      * 编写Get请求的方法。但没有参数传递的时候，可以使用Get请求
@@ -320,13 +325,13 @@ public class WXUtil {
 
 
 
-        ClickButton button31 = new ClickButton();
+        ViewButton button31 = new ViewButton();
 
-        button31.setName("杰小瑞");
+        button31.setName("个人中心");
 
-        button31.setType("click");
+        button31.setType("view");
 
-        button31.setKey("31");
+        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/page/wx/valid&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
 
 
 
@@ -334,7 +339,7 @@ public class WXUtil {
 
         button1.setName("杰瑞教育"); //将11/12两个button作为二级菜单封装第一个一级菜单
 
-        button1.setSub_button(new Button[]{button11,button12});
+       button1.setSub_button(new Button[]{button11,button12});
 
 
 
@@ -342,11 +347,11 @@ public class WXUtil {
 
         button2.setName("相关网址"); //将21/22两个button作为二级菜单封装第二个二级菜单
 
-        button2.setSub_button(new Button[]{button11,button12});
+       button2.setSub_button(new Button[]{button21,button22});
 
 
 
-        menu.setButton(new Button[]{button1,button2,button31});// 将31Button直接作为一级菜单
+        menu.setButton(new Button[]{button31});// 将31Button直接作为一级菜单
 
         return menu;
 
@@ -364,8 +369,53 @@ public class WXUtil {
             errmsg = jsonObject.getString("errmsg");
 
         }
+        System.out.println(result+errmsg);
         return result;
        }
+        public static JSONObject getUser(String token,String openId) throws ClientProtocolException, IOException {
+
+        int result = 0;
+        String errmsg = "ok";
+        String url = USER_DETAIL_URL.replace("ACCESS_TOKEN", token).replace("OPENID",openId);
+        JSONObject jsonObject = doGetStr(url);
+        if(jsonObject != null && jsonObject.containsKey("errcode") &&   0!= jsonObject.getInteger("errcode")){
+            result = jsonObject.getInteger("errcode");
+            errmsg = jsonObject.getString("errmsg");
+        }
+        System.out.println(jsonObject);
+        System.out.println(result+errmsg);
+        return jsonObject;
+       }
+
+       public static JSONObject getUserByUserToken(String token,String openId) throws ClientProtocolException, IOException {
+
+        int result = 0;
+        String errmsg = "ok";
+        String url = USER_DETAIL_URL_BY_USER_TOKEN.replace("ACCESS_TOKEN", token).replace("OPENID",openId);
+        JSONObject jsonObject = doGetStr(url);
+        if(jsonObject != null && jsonObject.containsKey("errcode") &&   0!= jsonObject.getInteger("errcode")){
+            result = jsonObject.getInteger("errcode");
+            errmsg = jsonObject.getString("errmsg");
+        }
+        System.out.println(jsonObject);
+        System.out.println(result+errmsg);
+        return jsonObject;
+       }
+
+
+    public static JSONObject getUserTokenByCode(String code) throws IOException {
+        int result = 0;
+        String errmsg = "ok";
+        String url = USER_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET",APPSECRET).replace("CODE",code);
+        JSONObject jsonObject = doGetStr(url);
+        if(jsonObject != null && jsonObject.containsKey("errcode") &&   0!= jsonObject.getInteger("errcode")){
+            result = jsonObject.getInteger("errcode");
+            errmsg = jsonObject.getString("errmsg");
+        }
+        System.out.println(jsonObject);
+        System.out.println(result+errmsg);
+        return jsonObject;
+    }
 
 }
 

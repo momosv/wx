@@ -16,4 +16,11 @@ public class ClickButton extends  Button {
     public void setKey(String key) {
         this.key = key;
     }
+
+    @Override
+    public String toString() {
+        return "ClickButton{" +
+                "key='" + key + '\'' +
+                '}';
+    }
 }
