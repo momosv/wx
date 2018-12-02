@@ -30,6 +30,17 @@ import java.util.Map;
 @RequestMapping("wx")
 public class WxCtrl {
 
+    @RequestMapping("/getImg")
+    public String getImg(String account,HttpServletRequest request,HttpServletResponse resp) throws Exception{
+
+
+        String temporaryQR = WXUtil.createPermanentQRCode(null, null);
+        System.out.println(temporaryQR);
+        //wechatImg.downloadFile(wechatImg.DOWNLOADIMG+ticket, "F://image//"+account+"//"+account+".jpg");
+        //DownLoadUtii.downloadAmachment(wechatImg.DOWNLOADIMG+ticket, account+".jpg", request, resp);+
+        return temporaryQR;
+    }
+
 
     @RequestMapping("sendTemplateMessage")
     public Object sendTemplateMessage(String token,String openid) throws IOException {

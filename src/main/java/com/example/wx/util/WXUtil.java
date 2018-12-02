@@ -37,7 +37,7 @@ import org.apache.http.util.EntityUtils;
 
 public class WXUtil {
     //从微信后台拿到APPID和APPSECRET 并封装为常量
-    public static  String TOKEN = "16_J8uFcZ-AELQ_dK3neSrmpGlnNevO09w2jWZsslUIZIqRqjrwbxY4wWrqSSXbw9GJg_cEnHujJ7fk7M23zihkBewhX-A8FSZkIJqzbSprOVOyB90-AnRzxSlfUalzwUaFPObbSv3xRl8jr6m7ADPcAGADGS";
+    public static  String TOKEN = "16_Qje2RXrXperD4N6n7eC5vpuSWHKq9ETl39fN80RAkG5uV7o_hMhCIFrodvoX_GzxVmeXGDTMLkX6l9bDCkVi9XskYhyfOeH8iytHuHfFtOOMnMyWoQJ9byzYI2ir5gSMM4dXpmOIYYq6FktTPQOeAJAGHF";
 
     private static final String APPID = "wx550aceeb3b9271a4";
     private static final String APPSECRET = "2ec7cc8fa3c7c229c9244cf39affb31c";
@@ -48,6 +48,45 @@ public class WXUtil {
     private static final String USER_DETAIL_URL_BY_USER_TOKEN = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
     private static final String USER_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     private static final String SEND_TEMPLAYE_MESSAGE_URL ="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+
+
+
+
+
+
+    /**
+     * 创建永久二维码
+     * @param accessToken
+     * @param sceneId  场景Id
+     * @param sceneStr  场景IdsceneStr
+     * @return
+     */
+    //数字ID用这个{"action_name": "QR_LIMIT_SCENE", "action_info": {"scene": {"scene_id": 123}}}
+    //或者也可以使用以下POST数据创建字符串形式的二维码参数：
+    //字符ID用这个{"action_name": "QR_LIMIT_STR_SCENE", "action_info": {"scene": {"scene_str": "hfrunffgha"}}}
+    public static String createPermanentQRCode(String accessToken, String sceneStr) throws IOException {
+        //获取数据的地址（微信提供）
+        String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="+TOKEN+"";
+
+        //发送给微信服务器的数据
+        String jsonStr = "{\"expire_seconds\": 2592000,\"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"						\": "+"momo"+"}}}";
+        String ticket = null;
+        JSONObject jsonObject = doPostStr(url,  jsonStr);
+        if(null!=jsonObject){
+            try {
+                ticket = jsonObject.getString("ticket");
+            } catch (Exception e) {
+                String errorCode = jsonObject.getString("errcode");
+                String errorMsg = jsonObject.getString("errmsg");
+
+            }
+        }
+        return ticket;
+    }
+
+
+
+
 
 
 
