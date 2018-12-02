@@ -31,6 +31,10 @@ import java.util.Map;
 public class WxCtrl {
 
 
+    @RequestMapping("sendTemplateMessage")
+    public Object sendTemplateMessage(String token,String openid) throws IOException {
+       return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
+    }
     @RequestMapping("getUserInfo")
     public String getUserInfo(String token,String openid) throws IOException {
        return   WXUtil.getUserByUserToken(token,openid).toJSONString();

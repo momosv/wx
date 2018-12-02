@@ -7,10 +7,13 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.wx.entity.AccessToken;
+import com.example.wx.entity.TemplateData;
+import com.example.wx.entity.WeChatTemplate;
 import com.example.wx.wxmenu.Button;
 import com.example.wx.wxmenu.ClickButton;
 import com.example.wx.wxmenu.Menu;
@@ -34,7 +37,7 @@ import org.apache.http.util.EntityUtils;
 
 public class WXUtil {
     //从微信后台拿到APPID和APPSECRET 并封装为常量
-    public static  String TOKEN = "16_8GyWRn86IFNHoY5PeTqpvjFzVzdfZRKBrLhN7DIocjs-F3JQFmI-eocETnVo1ppKoD0Ljz7YuBw2Qd4W1ETO3j2C0zQpls08Csr5c5RNruz_xZtm8uobBujmj_qlyzA5GA88uk38ZYf6xmaBOKXiACAWSF";
+    public static  String TOKEN = "16_J8uFcZ-AELQ_dK3neSrmpGlnNevO09w2jWZsslUIZIqRqjrwbxY4wWrqSSXbw9GJg_cEnHujJ7fk7M23zihkBewhX-A8FSZkIJqzbSprOVOyB90-AnRzxSlfUalzwUaFPObbSv3xRl8jr6m7ADPcAGADGS";
 
     private static final String APPID = "wx550aceeb3b9271a4";
     private static final String APPSECRET = "2ec7cc8fa3c7c229c9244cf39affb31c";
@@ -44,6 +47,65 @@ public class WXUtil {
     private static final String USER_DETAIL_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
     private static final String USER_DETAIL_URL_BY_USER_TOKEN = "https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
     private static final String USER_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+    private static final String SEND_TEMPLAYE_MESSAGE_URL ="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
+
+
+
+public static Object sendTemplateMessage(String accessToken, WeChatTemplate weChatTemplate) {
+
+    String jsonString = JSONObject.toJSONString(weChatTemplate);
+
+     weChatTemplate = new WeChatTemplate();
+    weChatTemplate.setTemplate_id("vHfhjBgslHV9DfHWRvvukHME6R5ykiMHmSN5PNMPmLI");
+    weChatTemplate.setTouser("orXeJ1NIsDaEMtH1cnwoOTmYewL0");//此处是用户的OpenId
+
+    weChatTemplate.setUrl("");
+
+    Map<String, TemplateData> m = new HashMap<String, TemplateData>();
+    TemplateData first = new TemplateData();
+    first.setColor("#66CCFF");
+    first.setValue("起床集合");
+    m.put("first", first);
+    TemplateData keyword1 = new TemplateData();
+    keyword1.setColor("#66CCFF");
+    keyword1.setValue("没理由啊");
+    m.put("keyword1", keyword1);
+    TemplateData keyword2 = new TemplateData();
+    keyword2.setColor("#66CCFF");
+    keyword2.setValue("now!!!");
+    m.put("keyword2", keyword2);
+    TemplateData remark = new TemplateData();
+    remark.setColor("#66CCFF");
+    remark.setValue("此处应有掌声");
+    m.put("remark", remark);
+    weChatTemplate.setData(m);
+    try {
+        WXUtil.sendTemplateMessage2(TOKEN, weChatTemplate);
+        weChatTemplate.setTouser("orXeJ1EVNi1d8_0kgebkkQB-bn_g");//此处是用户的OpenId);
+      return  WXUtil.sendTemplateMessage2(TOKEN, weChatTemplate);
+    } catch (Exception e) {
+    }
+    return "faild";
+}
+    public static JSONObject sendTemplateMessage2(String accessToken, WeChatTemplate weChatTemplate) throws IOException {
+        String jsonString = JSONObject.toJSONString(weChatTemplate);
+        String requestUrl = SEND_TEMPLAYE_MESSAGE_URL.replace("ACCESS_TOKEN", accessToken);//发送 post请求 发送json数据   
+        //发送 post请求 发送json数据
+         JSONObject json = doPostStr(requestUrl, jsonString);
+            String  errmsg = null;
+            Integer result = null;
+        if(json != null){
+
+            result = json.getInteger("errcode");
+            errmsg = json.getString("errmsg");
+
+        }
+        System.out.println(result+errmsg);
+        return json;
+
+        }
+
+
 
 
     /**
@@ -331,7 +393,7 @@ public class WXUtil {
 
         button31.setType("view");
 
-        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/page/wx/valid&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://192.168.0.103/page/wx/valid&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
 
 
 
