@@ -26,7 +26,7 @@ public class PageCtrl {
 
     @ResponseBody
     @RequestMapping("wx/valid")
-    public String getUserInfoBySilently(String code) throws IOException {
+    public String getUserInfoBySilently(String code) throws Exception {
       JSONObject tObject = WXUtil.getUserTokenByCode(code);
 
        String openId = tObject.getString("openid");

@@ -47,7 +47,7 @@ public class WxCtrl {
        return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
     }
     @RequestMapping("getUserInfo")
-    public String getUserInfo(String token,String openid) throws IOException {
+    public String getUserInfo(String token,String openid) throws Exception {
        return   WXUtil.getUserByUserToken(token,openid).toJSONString();
     }
 
@@ -66,12 +66,14 @@ public class WxCtrl {
                 WXUtil.TOKEN=tk.getToken();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return "success";
+        return "success";
     }
 
     @RequestMapping("createMenu")
-    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String menu = JSONObject.toJSONString(WXUtil.initMenu());
         System.out.println(menu);
         WXUtil.createMenu(WXUtil.TOKEN,menu);
