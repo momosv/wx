@@ -136,7 +136,7 @@ public class WXUtil {
         String url = QRCODE_TICKET_URL.replace("ACCESS_TOKEN", TOKEN);
 
         //发送给微信服务器的数据
-        String jsonStr = "{\"expire_seconds\": 2592000,\"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"						\": " + "momo" + "}}}";
+        String jsonStr = "{\"expire_seconds\": 2592000,\"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": " + "momo" + "}}}";
         String ticket = null;
         JSONObject jsonObject = doPostStr(url, jsonStr);
         if (null != jsonObject) {

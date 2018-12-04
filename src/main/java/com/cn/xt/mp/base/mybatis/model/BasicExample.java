@@ -1,8 +1,10 @@
-package com.cn.xt.mp.base.mybatis.model.base;
+package com.cn.xt.mp.base.mybatis.model;
 
 
 
-import cn.momosv.blog.common.util.RegexUtils;
+
+
+import com.cn.xt.mp.base.util.RegexUtils;
 
 import java.util.*;
 

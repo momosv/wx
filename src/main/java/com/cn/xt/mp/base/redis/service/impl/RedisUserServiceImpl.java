@@ -1,7 +1,8 @@
 package com.cn.xt.mp.base.redis.service.impl;
 
-import cn.momosv.blog.base.redis.service.RedisUserService;
-import cn.momosv.blog.base.redis.util.RedisUtils;
+
+import com.cn.xt.mp.base.redis.service.RedisUserService;
+import com.cn.xt.mp.base.redis.util.RedisUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

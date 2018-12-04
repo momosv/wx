@@ -36,6 +36,6 @@
 
 
 	</settings>
-	<objectWrapperFactory type="cn.momosv.blog.base.mybatis.wrapper.MyWrapperFactory"/>
+	<objectWrapperFactory type="com.cn.xt.mp.base.mybatis.wrapper.MyWrapperFactory"/>
 </configuration>
 

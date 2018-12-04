@@ -1,7 +1,8 @@
 package com.cn.xt.mp.wx.aop;
 
 
-import cn.momosv.blog.base.interfaces.AuthIgnore;
+
+import com.cn.xt.mp.base.interfaces.AuthIgnore;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -10,7 +11,7 @@ import org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.method.HandlerMethod;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;

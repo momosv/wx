@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.momosv.blog.base.mybatis.dao.BasicMapper">
+<mapper namespace="com.cn.xt.mp.base.mybatis.dao.BasicMapper">
 	<sql id="Example_Where_Clause">
 		<where>
 			<foreach collection="example.oredCriteria" item="criteria"
@@ -190,7 +190,7 @@
 		</where>
 	</update>
 
-	<select id="countByExample" parameterType="cn.momosv.blog.base.mybatis.model.base.BasicExample"
+	<select id="countByExample" parameterType="com.cn.xt.mp.base.mybatis.model.BasicExample"
 		resultType="java.lang.Integer">
 		select sellCount(1) from ${example.tName}
 		<if test="_parameter != null">
@@ -206,7 +206,7 @@
 			#{pk}
 		</foreach>
 	</delete>
-	<delete id="deleteByExample" parameterType="cn.momosv.blog.base.mybatis.model.base.BasicExample" >
+	<delete id="deleteByExample" parameterType="com.cn.xt.mp.base.mybatis.model.BasicExample" >
     delete from ${example.tName}
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -221,7 +221,7 @@
 		</foreach>
   </select>
 
-	<select id="selectByExample" resultType="java.util.Map" parameterType="cn.momosv.blog.base.mybatis.model.base.BasicExample" >
+	<select id="selectByExample" resultType="java.util.Map" parameterType="com.cn.xt.mp.base.mybatis.model.BasicExample" >
     select
     <if test="example.distinct" >
       distinct
@@ -235,7 +235,7 @@
     </if>
   	</select>
 
-	<select id="selectJoint" parameterType="cn.momosv.blog.base.mybatis.model.base.BasicExample"
+	<select id="selectJoint" parameterType="com.cn.xt.mp.base.mybatis.model.BasicExample"
 			resultType="java.util.Map">
 		select ${example.col} from ${example.tName}
 		<where>

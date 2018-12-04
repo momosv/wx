@@ -1,14 +1,9 @@
-package com.cn.xt.mp.base.controller;
+package com.cn.xt.mp.fileServer.controller;
 
-import cn.momosv.blog.base.interfaces.AuthIgnore;
-import cn.momosv.blog.base.mybatis.model.base.Msg;
-import cn.momosv.blog.common.util.DatePattern;
-import cn.momosv.blog.common.util.XDateUtils;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.cn.xt.mp.base.entity.Msg;
+import com.cn.xt.mp.base.util.DatePattern;
+import com.cn.xt.mp.base.util.XDateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +25,6 @@ import java.util.Date;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("upload")
-@AuthIgnore
 public class FileController {
 
     private static final Logger log = LoggerFactory.getLogger(FileController.class);
@@ -88,40 +82,40 @@ public class FileController {
         }
         return Msg.fail("上传的文件为空");
     }
-    @RequestMapping( value = "up/{upLoadUser}")
+    @RequestMapping( value = "testExcel/{upLoadUser}")
     private void testExcel(HttpServletResponse response) throws IOException {
-        //创建HSSFWorkbook对象(excel的文档对象)
-        XSSFWorkbook wb = new XSSFWorkbook();
-//建立新的sheet对象（excel的表单）
-        XSSFSheet sheet=wb.createSheet("成绩表");
-//在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
-        XSSFRow row1=sheet.createRow(0);
-//创建单元格（excel的单元格，参数为列索引，可以是0～255之间的任何一个
-        XSSFCell cell=row1.createCell(0);
-        //设置单元格内容
-        cell.setCellValue("学员考试成绩一览表");
-//合并单元格CellRangeAddress构造参数依次表示起始行，截至行，起始列， 截至列
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,3));
-//在sheet里创建第二行
-        XSSFRow row2=sheet.createRow(1);
-        //创建单元格并设置单元格内容
-        row2.createCell(0).setCellValue("姓名");
-        row2.createCell(1).setCellValue("班级");
-        row2.createCell(2).setCellValue("笔试成绩");
-        row2.createCell(3).setCellValue("机试成绩");
-        //在sheet里创建第三行
-        XSSFRow row3=sheet.createRow(2);
-        row3.createCell(0).setCellValue("李明");
-        row3.createCell(1).setCellValue("As178");
-        row3.createCell(2).setCellValue(87);
-        row3.createCell(3).setCellValue(78);
-        //.....省略部分代码
-
-        FileOutputStream output=new FileOutputStream(ROOT+"/workbook.xlsx");
-        wb.write(output);
-        output.close();
-        //Files.copy(output,  Paths.get(ROOT, "workbook.xls"));
-        //输出Excel文件
+//        //创建HSSFWorkbook对象(excel的文档对象)
+//        XSSFWorkbook wb = new XSSFWorkbook();
+////建立新的sheet对象（excel的表单）
+//        XSSFSheet sheet=wb.createSheet("成绩表");
+////在sheet里创建第一行，参数为行索引(excel的行)，可以是0～65535之间的任何一个
+//        XSSFRow row1=sheet.createRow(0);
+////创建单元格（excel的单元格，参数为列索引，可以是0～255之间的任何一个
+//        XSSFCell cell=row1.createCell(0);
+//        //设置单元格内容
+//        cell.setCellValue("学员考试成绩一览表");
+////合并单元格CellRangeAddress构造参数依次表示起始行，截至行，起始列， 截至列
+//        sheet.addMergedRegion(new CellRangeAddress(0,0,0,3));
+////在sheet里创建第二行
+//        XSSFRow row2=sheet.createRow(1);
+//        //创建单元格并设置单元格内容
+//        row2.createCell(0).setCellValue("姓名");
+//        row2.createCell(1).setCellValue("班级");
+//        row2.createCell(2).setCellValue("笔试成绩");
+//        row2.createCell(3).setCellValue("机试成绩");
+//        //在sheet里创建第三行
+//        XSSFRow row3=sheet.createRow(2);
+//        row3.createCell(0).setCellValue("李明");
+//        row3.createCell(1).setCellValue("As178");
+//        row3.createCell(2).setCellValue(87);
+//        row3.createCell(3).setCellValue(78);
+//        //.....省略部分代码
+//
+//        FileOutputStream output=new FileOutputStream(ROOT+"/workbook.xlsx");
+//        wb.write(output);
+//        output.close();
+//        //Files.copy(output,  Paths.get(ROOT, "workbook.xls"));
+//        //输出Excel文件
     }
 
 

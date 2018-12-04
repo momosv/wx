@@ -1,8 +1,9 @@
 package com.cn.xt.mp.wx.baseController;
 
 
-import cn.momosv.blog.login.component.impl.AuthManager;
-import cn.momosv.blog.login.model.UserInfoPO;
+
+import com.cn.xt.mp.wx.component.impl.AuthManager;
+import com.cn.xt.mp.wx.model.UserInfoPO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.security.auth.message.AuthException;

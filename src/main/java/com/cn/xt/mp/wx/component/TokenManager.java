@@ -1,6 +1,7 @@
 package com.cn.xt.mp.wx.component;
 
-import cn.momosv.blog.login.model.UserInfoPO;
+
+import com.cn.xt.mp.wx.model.UserInfoPO;
 
 public interface TokenManager {
 

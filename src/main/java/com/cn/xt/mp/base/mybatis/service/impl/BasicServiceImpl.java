@@ -8,12 +8,13 @@
 package com.cn.xt.mp.base.mybatis.service.impl;
 
 
-import cn.momosv.blog.base.mybatis.dao.BasicMapper;
-import cn.momosv.blog.base.mybatis.model.base.BasicExample;
-import cn.momosv.blog.base.mybatis.model.base.IBaseDBPO;
-import cn.momosv.blog.base.mybatis.service.BasicService;
-import cn.momosv.blog.common.util.ObjectMapUtils;
-import cn.momosv.blog.common.util.RegexUtils;
+
+import com.cn.xt.mp.base.mybatis.dao.BasicMapper;
+import com.cn.xt.mp.base.mybatis.model.BasicExample;
+import com.cn.xt.mp.base.mybatis.model.IBaseDBPO;
+import com.cn.xt.mp.base.mybatis.service.BasicService;
+import com.cn.xt.mp.base.util.ObjectMapUtils;
+import com.cn.xt.mp.base.util.RegexUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;

@@ -1,7 +1,8 @@
-package com.cn.xt.mp.base.mybatis.exception;
+package com.cn.xt.mp.base.exception;
 
 
-import cn.momosv.blog.base.mybatis.model.base.Msg;
+
+import com.cn.xt.mp.base.entity.Msg;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MissingServletRequestParameterException;

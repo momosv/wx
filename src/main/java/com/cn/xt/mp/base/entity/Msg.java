@@ -1,4 +1,4 @@
-package com.cn.xt.mp.base.mybatis.model.base;
+package com.cn.xt.mp.base.entity;
 
 import java.util.HashMap;
 import java.util.Map;

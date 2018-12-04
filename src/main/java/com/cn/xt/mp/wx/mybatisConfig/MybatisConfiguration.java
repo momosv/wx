@@ -1,7 +1,8 @@
 package com.cn.xt.mp.wx.mybatisConfig;
 
 
-import cn.momosv.blog.base.mybatis.config.SqlPrintInterceptor;
+
+import com.cn.xt.mp.base.mybatis.config.SqlPrintInterceptor;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,37 +39,23 @@ import java.util.Properties;
 
 @MapperScan({MybatisConfiguration.BASIC_MAPPER_DAO})
 @Configuration
-@ConfigurationProperties(prefix = "mybatis.ext")
 @EnableTransactionManagement
 public class MybatisConfiguration implements TransactionManagementConfigurer {
 
         private static Log logger = LogFactory.getLog(MybatisConfiguration.class);
 
-        //  配置类型别名
-        @Value("${mybatis-common.type-aliases-package}")
-        private   String typeAliasesPackage;
         //  配置mapper的扫描，找到所有的mapper.xml映射文件
-         final static String BASIC_MAPPER_DAO="cn.momosv.blog.base.mybatis.dao";
-        @Value("${mybatis-common.mapper-locations}")
-        private  List<String> BASIC_MAPPER_LOCATIONS;
-
+         final static String BASIC_MAPPER_DAO="com.cn.xt.mp.wx.dao";
+        //  配置类型别名
+        @Value("${mybatis.type-aliases-package}")
+        private   String typeAliasesPackage;
+        @Value("${mybatis.mapper-locations}")
+        private  List<String> mapperLocations;
         //  加载全局的配置文件
-        @Value("${mybatis-common.config-location}")
+        @Value("${mybatis.config-location}")
         private String configLocation;
         //--------------------上面是公共包---------------------
 
-
-        //  配置mapper的扫描，找到所有的mapper.xml映射文件
-      //  @Value("${mybatis.ext.mapper-locations}")
-        private List<String> mapperLocations;
-
-        public List<String> getMapperLocations() {
-            return mapperLocations;
-        }
-
-        public void setMapperLocations(List<String> mapperLocations) {
-            this.mapperLocations = mapperLocations;
-        }
 
         @Autowired
         private DataSource dataSource;
@@ -84,9 +71,8 @@ public class MybatisConfiguration implements TransactionManagementConfigurer {
                 sessionFactoryBean.setTypeAliasesPackage(typeAliasesPackage);
                 
                 //设置mapper.xml文件所在位置
-                BASIC_MAPPER_LOCATIONS.addAll(mapperLocations);
                 List<Resource> rL = new ArrayList<>();
-                for (String mapperLocation : BASIC_MAPPER_LOCATIONS) {
+                for (String mapperLocation : mapperLocations) {
                     Resource[] resources = new PathMatchingResourcePatternResolver().getResources(mapperLocation);
                     rL.addAll(Arrays.asList(resources));
                 }

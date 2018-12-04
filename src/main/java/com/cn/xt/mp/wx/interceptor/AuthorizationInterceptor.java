@@ -1,9 +1,10 @@
 package com.cn.xt.mp.wx.interceptor;
 
-import cn.momosv.blog.base.interfaces.AuthIgnore;
-import cn.momosv.blog.base.redis.util.RedisUtils;
-import cn.momosv.blog.base.mybatis.exception.MyException;
-import cn.momosv.blog.common.util.Constants;
+
+import com.cn.xt.mp.base.exception.MyException;
+import com.cn.xt.mp.base.interfaces.AuthIgnore;
+import com.cn.xt.mp.base.redis.util.RedisUtils;
+import com.cn.xt.mp.base.util.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

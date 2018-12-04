@@ -23,15 +23,15 @@ public class DatasourceConfig {
 	private Logger logger = LoggerFactory.getLogger(DatasourceConfig.class);
     @Bean(name="dataSource")
     @Primary //不要漏了这
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.master")
     public DataSource dataSource(){
         DruidDataSource datasource = DruidDataSourceBuilder.create().build();
         return datasource;  
     }
 
-    @Bean(name="circleDataSource")
-    @ConfigurationProperties(prefix = "spring.circle-datasource")
-    public DataSource circleDataSource(){
+    @Bean(name="readonlyDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.slaver")
+    public DataSource readonlyDataSource(){
         DruidDataSource datasource = DruidDataSourceBuilder.create().build();
         return datasource;
     }

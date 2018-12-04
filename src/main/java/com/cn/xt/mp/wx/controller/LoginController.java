@@ -2,12 +2,12 @@ package com.cn.xt.mp.wx.controller;
 
 
 
-import cn.momosv.blog.base.interfaces.AuthIgnore;
-import cn.momosv.blog.base.mybatis.model.base.Msg;
-import cn.momosv.blog.common.util.Constants;
-import cn.momosv.blog.login.baseController.BaseController;
 
-import cn.momosv.blog.login.model.UserInfoPO;
+import com.cn.xt.mp.base.entity.Msg;
+import com.cn.xt.mp.base.interfaces.AuthIgnore;
+import com.cn.xt.mp.base.util.Constants;
+import com.cn.xt.mp.wx.baseController.BaseController;
+import com.cn.xt.mp.wx.model.UserInfoPO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +20,7 @@ public class LoginController extends BaseController {
 
 
     @RequestMapping("/login")
-    public Object login(UserInfoPO user,String id, HttpServletRequest servletRequest){
+    public Object login(UserInfoPO user, String id, HttpServletRequest servletRequest){
         String token = authManager.signIn(user);
         servletRequest.getSession().setAttribute(Constants.USER_TOKEN,token);
         return Msg.success("success").add(Constants.USER_TOKEN,token);

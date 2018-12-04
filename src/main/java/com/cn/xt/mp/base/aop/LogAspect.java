@@ -1,4 +1,4 @@
-package com.cn.xt.mp.wx.aop;
+package com.cn.xt.mp.base.aop;
 
 
 import org.aspectj.lang.JoinPoint;

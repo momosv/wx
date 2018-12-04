@@ -7,8 +7,10 @@
  */
 package com.cn.xt.mp.base.mybatis.service;
 
-import cn.momosv.blog.base.mybatis.model.base.BasicExample;
-import cn.momosv.blog.base.mybatis.model.base.IBaseDBPO;
+
+
+import com.cn.xt.mp.base.mybatis.model.BasicExample;
+import com.cn.xt.mp.base.mybatis.model.IBaseDBPO;
 
 import java.util.List;
 import java.util.Map;

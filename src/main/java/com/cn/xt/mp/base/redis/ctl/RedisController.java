@@ -1,6 +1,7 @@
 package com.cn.xt.mp.base.redis.ctl;
 
-import cn.momosv.blog.base.redis.service.RedisUserService;
+
+import com.cn.xt.mp.base.redis.service.RedisUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

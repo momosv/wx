@@ -1,8 +1,8 @@
 package com.cn.xt.mp.wx.mybatisConfig;
 
 
-import cn.momosv.blog.base.mybatis.config.SqlPrintInterceptor;
-import cn.momosv.blog.base.mybatis.wrapper.MyWrapperFactory;
+import com.cn.xt.mp.base.mybatis.config.SqlPrintInterceptor;
+import com.cn.xt.mp.base.mybatis.wrapper.MyWrapperFactory;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,41 +34,36 @@ import java.util.List;
  *
  */
 
-@MapperScan(value = "cn.momosv.blog.circle.dao",sqlSessionFactoryRef = "circleSqlSessionFactory")
+@MapperScan(value = "com.cn.xt.mp.wx.readonlyDao",sqlSessionFactoryRef = "readonlySqlSessionFactory")
 @Configuration
-@ConfigurationProperties
 @EnableTransactionManagement
-public class CircleMybatisConfiguration {
+public class ReadonlyMybatisConfiguration {
 
-	private static Log logger = LogFactory.getLog(CircleMybatisConfiguration.class);
+	private static Log logger = LogFactory.getLog(ReadonlyMybatisConfiguration.class);
 
 
     //  配置类型别名
-    @Value("${mybatis-circle.type-aliases-package}")
+    @Value("${mybatis.type-aliases-package}")
     private String typeAliasesPackage2;
 
     //  配置mapper的扫描，找到所有的mapper.xml映射文件
-    @Value("${mybatis-circle.mapper-locations}")
-    private String mapperLocations2;
-
-    //  配置mapper的扫描，找到所有的mapper.xml映射文件
-    @Value("${mybatis-common.mapper-locations}")
+    @Value("${mybatis.mapper-locations}")
     private String mapperLocations;
 
     //  加载全局的配置文件
-    @Value("${mybatis-common.config-location}")
+    @Value("${mybatis.config-location}")
     private String configLocation;
 
 
     //事务管理
     @Bean(name = "circleDataSourceTransactionManager ")
-    public  DataSourceTransactionManager  annotationDrivenTransactionManager(@Qualifier("circleDataSource") DataSource datasource) {
+    public  DataSourceTransactionManager  annotationDrivenTransactionManager(@Qualifier("readonlyDataSource") DataSource datasource) {
         return new DataSourceTransactionManager(datasource);
     }
 
 
-    @Bean(name = "circleSqlSessionFactory")
-    public SqlSessionFactory clusterSqlSessionFactory(@Qualifier("circleDataSource") DataSource datasource
+    @Bean(name = "readonlySqlSessionFactory")
+    public SqlSessionFactory readonlySqlSessionFactory(@Qualifier("readonlyDataSource") DataSource datasource
             ,@Qualifier("pageHelper") PageHelper pageHelper
             ,@Qualifier("sqlPrintInterceptor")SqlPrintInterceptor sqlPrintInterceptor) throws Exception {
        try{
@@ -81,10 +76,8 @@ public class CircleMybatisConfiguration {
        sessionFactory.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
         //设置mapper.xml文件所在位置
         Resource[] resource = new PathMatchingResourcePatternResolver().getResources(mapperLocations);
-        Resource[] resource2 = new PathMatchingResourcePatternResolver().getResources(mapperLocations2);
         List<Resource> rL= new ArrayList<>();
-           rL.addAll(Arrays.asList(resource));
-           rL.addAll(Arrays.asList(resource2));
+        rL.addAll(Arrays.asList(resource));
         sessionFactory.setMapperLocations(rL.toArray(new Resource[rL.size()]));
         sessionFactory.setObjectWrapperFactory(new MyWrapperFactory());
         //添加分页插件、打印sql插件
@@ -102,7 +95,7 @@ public class CircleMybatisConfiguration {
     }
 
     @Bean("circleSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("circleSqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("readonlySqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 /*    @Bean("circleConfigurationCustomizer")

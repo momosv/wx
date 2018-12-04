@@ -1,40 +1,10 @@
-server:
-  port: 80
-spring:
-
-  profiles:
-    active: base,freemark,mybatis
-
-
-
-
-  session:
-      store-type: none
-
-
-     # HTTP ENCODING
-  http:
-    encoding.charset: UTF-8
-    encoding.enable: true
-    encoding.force: true
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 100MB
-      max-request-size: 1000MB
-
 mybatis:
   ext:
      mapper-locations:
-        - classpath*:/ws-mapper/*.xml
-
-logging:
-  config: classpath:logback.xml
-  path: logs
-  level:
-    org:
-      springframework:
-         security: INFO
+      # - classpath*:/ws-mapper/*.xml # 数组，用 -  接收
+  mapper-locations: /base-mapper/*.xml
+  type-aliases-package: com.cn.xt.mp.wx.entity
+  config-location: classpath:/mybatis-config.xml
 
       #    order: 1
 
