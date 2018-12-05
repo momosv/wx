@@ -105,17 +105,6 @@ public class BasicServiceImpl implements BasicService {
 	@Override
 	public <T extends IBaseDBPO, E extends BasicExample>List selectJoint(E example) throws Exception{
 		List<Map> mapL=   basicMapper.selectJoint(example);
-/*		Set<String> set0=null;
-		if(mapL.size()>0){
-			set0=mapL.get(0).entrySet();
-			for(Map map:mapL) {
-				for (Object s : set0) {
-					map.put(RegexUtils.lineToHump((String) s),map.get(s));
-					map.remove(s);
-				}
-
-			}
-		}*/
 		return mapL;
 	}
 

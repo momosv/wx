@@ -1,4 +1,4 @@
-package com.cn.xt.mp.wx.interceptor;//package cn.momosv.blog.web.interceptor;
+package com.cn.xt.mp.interceptor;//package cn.momosv.blog.web.interceptor;
 //
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.stereotype.Component;

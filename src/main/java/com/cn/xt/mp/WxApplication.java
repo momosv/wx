@@ -18,7 +18,13 @@ public class WxApplication  extends SpringBootServletInitializer {
 
 
     public static void main(String[] args) throws IOException {
-        SpringApplication.run(WxApplication.class, args);
+      //  SpringApplication.run(WxApplication.class, args);
+
+        String chargePersonId1 = new String();
+        String chargePersonId2 = new String();
+         chargePersonId2 = "1";
+        System.out.println( chargePersonId2.getClass());
+
 
     }
 }

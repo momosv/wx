@@ -1,5 +1,6 @@
 package com.cn.xt.mp.base.mybatis.wrapper;
 
+
 import com.google.common.base.CaseFormat;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.wrapper.MapWrapper;
@@ -19,12 +20,12 @@ public class CustomWrapper extends MapWrapper {
         if(useCamelCaseMapping){
             //CaseFormat是引用的 guava库,里面有转换驼峰的,免得自己重复造轮子,pom添加
             /**
-             **         <dependency>
+             <dependency>
              <groupId>com.google.guava</groupId>
              <artifactId>guava</artifactId>
              <version>24.1-jre</version>
              </dependency>
-             **/
+             */
             return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,name);
         }
         return name;

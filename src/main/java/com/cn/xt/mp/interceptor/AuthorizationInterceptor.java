@@ -1,4 +1,4 @@
-package com.cn.xt.mp.wx.interceptor;
+package com.cn.xt.mp.interceptor;
 
 
 import com.cn.xt.mp.base.exception.MyException;

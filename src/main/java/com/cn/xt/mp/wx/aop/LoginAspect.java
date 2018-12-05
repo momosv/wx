@@ -24,7 +24,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class LoginAspect {
-    @Pointcut("execution(* cn.momosv.blog.login.controller.*.*(..))")
+    @Pointcut("execution(* com.cn.xt.mp.wx.controller.*.*(..))")
     public void webLogin(){}
 
     //环绕通知,环绕增强，相当于MethodInterceptor
