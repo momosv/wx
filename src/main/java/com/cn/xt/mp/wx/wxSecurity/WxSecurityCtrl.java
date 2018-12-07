@@ -1,15 +1,12 @@
-package com.cn.xt.mp.wx.ctrl;
+package com.cn.xt.mp.wx.wxSecurity;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cn.xt.mp.base.interfaces.AuthIgnore;
 import com.cn.xt.mp.wx.entity.AccessToken;
-import com.cn.xt.mp.wx.util.WXUtil;
-import com.cn.xt.mp.wx.wxSecurity.CheckUtil;
 import com.cn.xt.mp.wx.util.Message;
 import com.cn.xt.mp.wx.util.MessageUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cn.xt.mp.wx.util.WXUtil;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,60 +21,56 @@ import java.util.Map;
  * @date 2018/11/28 11:25
  **/
 @RestController
-@RequestMapping("wx")
-public class WxCtrl {
+@RequestMapping("wxSecurity")
+public class WxSecurityCtrl {
 
-    @RequestMapping("/getImg")
-    public String getImg(String account,HttpServletRequest request,HttpServletResponse resp) throws Exception{
+    /**
+     * 服务器配置,get方式
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    @GetMapping("access/{diy}")
+    public String doGet(@PathVariable String diy, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String signature = request.getParameter("signature");
+        String timestamp = request.getParameter("timestamp");
+        String nonce = request.getParameter("nonce");
+        String echostr = request.getParameter("echostr");
+        String  tooken = "momocc20"; //开发者自行定义Tooken
+        if (CheckUtil.checkSignature(tooken,signature, timestamp, nonce)) {
+            //如果校验成功，将得到的随机字符串原路返回
+            return echostr;
+        }
+        return null;
+    }
 
-
-        String temporaryQR = WXUtil.createPermanentQRCode(null, null);
-        System.out.println(temporaryQR);
-        //wechatImg.downloadFile(wechatImg.DOWNLOADIMG+ticket, "F://image//"+account+"//"+account+".jpg");
-        //DownLoadUtii.downloadAmachment(wechatImg.DOWNLOADIMG+ticket, account+".jpg", request, resp);+
-        return temporaryQR;
+    @ResponseBody
+    @RequestMapping("validCode/{diy}")
+    public String getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request) throws Exception {
+        JSONObject tObject = WXUtil.getUserTokenByCode(code);
+        Map map = request.getParameterMap();
+        String openId = tObject.getString("openid");
+        String user_token = tObject.getString("access_token");
+        //判断数据库是否有记录信息
+        if(false){
+            return tObject.toJSONString();
+        }else{
+            return  WXUtil.getUserByUserToken(user_token,openId).toJSONString();
+        }
     }
 
 
-    @RequestMapping("sendTemplateMessage")
-    public Object sendTemplateMessage(String token,String openid) throws IOException {
-       return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
-    }
-    @RequestMapping("getUserInfo")
-    public String getUserInfo(String token,String openid) throws Exception {
-       return   WXUtil.getUserByUserToken(token,openid).toJSONString();
-    }
-
-
-    @GetMapping("momo")
-    public String momo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        return "momo";
-    }
-
-    @GetMapping("flushToken")
-    public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            try {
-                AccessToken tk = WXUtil.getAccessToken();
-                System.out.println(tk.getToken());
-                System.out.println(tk.getExpiresIn());
-                WXUtil.TOKEN=tk.getToken();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        return "success";
-    }
-
-    @RequestMapping("createMenu")
-    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String menu = JSONObject.toJSONString(WXUtil.initMenu());
-        System.out.println(menu);
-        WXUtil.createMenu(WXUtil.TOKEN,menu);
-        return "success";
-    }
-
-    @PostMapping("access")
+    /**
+     * 微信客户端交互 post
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
+    @PostMapping("access/{diy}")
     public String doPost(HttpServletRequest request, HttpServletResponse response)
 
             throws ServletException, IOException {
@@ -127,7 +120,7 @@ public class WxCtrl {
                 }else if (Content.equals("3")) {
                     String [] fruit ={"香蕉","柚子","葡萄","梨子","奇异果","橙子","橘子","桃子","布林","黑加仑"};
                     String [] meat ={"排骨","鸡翅","鸭子","小鸡炖蘑菇"};
-                   String f = fruit[(int)(Math.random()*10)];
+                    String f = fruit[(int)(Math.random()*10)];
                     String m=  meat[(int)(Math.random()*4)];
 
                     message = " 今晚吃：\n\n"+f+"\n\n"+m+"\n\n";
@@ -164,7 +157,7 @@ public class WxCtrl {
 
                 String eventType = map.get("Event");
 
-              //关注事件
+                //关注事件
 
                 if (eventType.equals(MessageUtil.MESSAGE_SUBSCRIBE)) {
 
@@ -183,4 +176,45 @@ public class WxCtrl {
 
         return message;
     }
+
+
+
+    @RequestMapping("sendTemplateMessage")
+    public Object sendTemplateMessage(String token,String openid) throws IOException {
+       return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
+    }
+    @RequestMapping("getUserInfo")
+    public String getUserInfo(String token,String openid) throws Exception {
+       return   WXUtil.getUserByUserToken(token,openid).toJSONString();
+    }
+
+    @AuthIgnore
+    @GetMapping("flushToken")
+    public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            try {
+                AccessToken tk = WXUtil.getAccessToken();
+                System.out.println(tk.getToken());
+                System.out.println(tk.getExpiresIn());
+                WXUtil.TOKEN=tk.getToken();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        return "success";
+    }
+
+    @AuthIgnore
+    @RequestMapping("createMenu")
+    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String menu = JSONObject.toJSONString(WXUtil.initMenu());
+        System.out.println(menu);
+        WXUtil.createMenu(WXUtil.TOKEN,menu);
+        return "success";
+    }
+
+
+
+
+
 }

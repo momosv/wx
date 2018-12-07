@@ -18,6 +18,7 @@
         }
 
         function getQueryString(name) {
+            alert(window.location);
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);
             if (r != null) return unescape(r[2]); return null;
@@ -25,13 +26,14 @@
 
         function silentGetOpenId(){
             var code = getQueryString("code");
+            var appId = getQueryString("appId");
             $.ajax({
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/page/wx/valid' ,
+                url : '/wxSecurity/validCode/momo' ,
                 dataType : "json",
-                data:{code:code},
+                data:{code:code,appId:appId},
                 error : function() {
                     alert('smx失败 ');
                 },

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component("authorizationInterceptor")
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-     final static String[] ALLOW_PATH={"/webjars"};
+     final static String[] ALLOW_PATH={"/webjars","/wxSecurity/access/","wxSecurity/validCode/"};
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -32,22 +32,20 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         AuthIgnore annotation;
         if(handler instanceof HandlerMethod) {
-
-        }
-        if(handler instanceof HandlerMethod) {
             annotation = ((HandlerMethod) handler).getMethodAnnotation(AuthIgnore.class);
             if(null == annotation){
-               Class clazz = ((HandlerMethod) handler).getMethod().getDeclaringClass();
-                annotation =  ((HandlerMethod) handler).getMethod().getDeclaringClass().getAnnotation(AuthIgnore.class);
+                Class<?> clazz = ((HandlerMethod) handler).getMethod().getDeclaringClass();
+                annotation = clazz.getAnnotation(AuthIgnore.class);
+            }
+            //如果有@AuthIgnore注解，则不验证token
+            if(annotation != null){
+                return true;
             }
         }else{
             return true;
         }
 
-        //如果有@AuthIgnore注解，则不验证token
-        if(annotation != null){
-            return true;
-        }
+
 
         //获取用户凭证
         String token = request.getHeader(Constants.USER_TOKEN);

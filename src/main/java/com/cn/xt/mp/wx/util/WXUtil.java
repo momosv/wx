@@ -44,7 +44,7 @@ import java.util.Map;
 
 public class WXUtil {
     //从微信后台拿到APPID和APPSECRET 并封装为常量
-    public static String TOKEN = "16_R-2b53yfjpX_-T5vBUnTnQHL2Po2QgBm0eWFVWZVWKnJ6bkCH6UBXyDRJO5gqIjUlBC6V1_EbpN-DI15v8qUVCReCyOILUnjMAaatc5y09SsR-_NHpWoT-m_HCdmzpRNH7tRao1XHZZBf0UNJJEcACAXXS";
+    public static String TOKEN = "16_XDNWOcJrLaDhJgICVEe4CiB9-aRLFmtx0FCXUtY28xb4JRPea_LXGjOBQxzprfK0MwLFC6AGr_X0dIydPs0X4I6M9kyRRVPkAiYeuxkRBAQL8xzolKqaR4YichhWdTCGpJV5GAe_Zt0ZX8UMSYUaAIALRN";
 
     private static final String APPID = "wx550aceeb3b9271a4";
     private static final String APPSECRET = "2ec7cc8fa3c7c229c9244cf39affb31c";
@@ -380,7 +380,7 @@ public class WXUtil {
 
         button31.setType("view");
 
-        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/page/wx/valid&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect");
+        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://192.168.137.1/index.html&response_type=code,appId,app_id,AppId&scope=snsapi_userinfo&state=wx550aceeb3b9271a4#wechat_redirect");
 
 
         Button button1 = new Button();
@@ -417,7 +417,7 @@ public class WXUtil {
         return result;
     }
 
-    public static JSONObject getUser(String token, String openId) throws Exception {
+    public static JSONObject getUserByMgr(String token, String openId) throws Exception {
         int result = 0;
         String errmsg = "ok";
         String url = USER_DETAIL_URL.replace("ACCESS_TOKEN", token).replace("OPENID", openId);
