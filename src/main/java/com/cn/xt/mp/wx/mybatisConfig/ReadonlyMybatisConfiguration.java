@@ -79,7 +79,7 @@ public class ReadonlyMybatisConfiguration {
         List<Resource> rL= new ArrayList<>();
         rL.addAll(Arrays.asList(resource));
         sessionFactory.setMapperLocations(rL.toArray(new Resource[rL.size()]));
-        sessionFactory.setObjectWrapperFactory(new MyWrapperFactory());
+       sessionFactory.setObjectWrapperFactory(new MyWrapperFactory());
         //添加分页插件、打印sql插件
         Interceptor[] plugins = new Interceptor[]{pageHelper,sqlPrintInterceptor};
         sessionFactory.setPlugins(plugins);

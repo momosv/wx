@@ -30,7 +30,7 @@ public class WxSecurityCtrl {
 
 
     @Autowired
-    private static IWxSecurityService wxSecurityService ;
+    private  IWxSecurityService wxSecurityService ;
     /**
      * 服务器配置,get方式
      * @param request
@@ -40,12 +40,13 @@ public class WxSecurityCtrl {
      * @throws IOException
      */
     @GetMapping("access/{diy}")
-    public String doGet(@PathVariable String diy, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String doGet(@PathVariable String diy, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
         String signature = request.getParameter("signature");
         String timestamp = request.getParameter("timestamp");
         String nonce = request.getParameter("nonce");
         String echostr = request.getParameter("echostr");
-        String  tooken = "momocc20"; //开发者自行定义Tooken
+        String  tooken = security.getToken(); //开发者自行定义Tooken
         if (CheckUtil.checkSignature(tooken,signature, timestamp, nonce)) {
             //如果校验成功，将得到的随机字符串原路返回
             return echostr;
@@ -57,7 +58,6 @@ public class WxSecurityCtrl {
     @RequestMapping("validCode/{diy}")
     public String getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request) throws Exception {
         WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
-
         JSONObject tObject = WXUtil.getUserTokenByCode(code,security.getAppId());
         String openId = tObject.getString("openid");
         String user_token = tObject.getString("access_token");

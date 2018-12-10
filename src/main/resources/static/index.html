@@ -26,20 +26,19 @@
 
         function silentGetOpenId(){
             var code = getQueryString("code");
-            var appId = getQueryString("appId");
+            var diyDomain = getQueryString("state");
             $.ajax({
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/wxSecurity/validCode/momo' ,
+                url : '/wxSecurity/validCode/'+diyDomain ,
                 dataType : "json",
-                data:{code:code,appId:appId},
+                data:{code:code},
                 error : function() {
                     alert('smx失败 ');
                 },
                 success : function(data) {
-                    alert(data);
-                    getUserInfo(data.openid,data.access_token);
+                    alert(data.openid);
                 }
 
             });
@@ -50,7 +49,7 @@
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/wx/getUserInfo' ,
+                url : '/wxSecurity/getUserInfo' ,
                 dataType : "json",
                 data:{token:user_token,openid:openid},
                 error : function() {

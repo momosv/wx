@@ -38,6 +38,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class WXUtil {
 
-    private static IWxSecurityService wxSecurityService = SpringUtil.getBean("businessService", IWxSecurityService.class);
+    private static IWxSecurityService wxSecurityService = SpringUtil.getBean("wxSecurityService", IWxSecurityService.class);
 
 
     //从微信后台拿到APPID和APPSECRET 并封装为常量
@@ -229,30 +230,25 @@ public class WXUtil {
     public static AccessToken getAccessToken(String appId) throws Exception {
         if(RedisUtils.hasKey("appId::"+appId)){
               AccessToken token = (AccessToken) RedisUtils.get("appId::"+appId);
+              return token;
         }
         WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
         AccessToken token = new AccessToken();
         String url = ACCESS_TOKEN_URL.replace("APPID", appId).replace("APPSECRET", securityPO.getAppSecret());//将URL中的两个参数替换掉
-        JSONObject jsonObject = doGetStr(url);//使用doGet方法接收结果
         //三次访问
-        if (jsonObject != null) { //如果返回不为空，将返回结果封装进AccessToken实体类
-            token.setToken(jsonObject.getString("access_token"));//取出access_token
-            token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
-        }else {
+        JSONObject jsonObject = doGetStr(url);//使用doGet方法接收结果
+        if (jsonObject == null) { //如果返回不为空，将返回结果封装进AccessToken实体类
              jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
-            if (jsonObject != null) { //如果返回不为空，将返回结果封装进AccessToken实体类
-                token.setToken(jsonObject.getString("access_token"));//取出access_token
-                token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
-            }else {
+            if (jsonObject == null) { //如果返回不为空，将返回结果封装进AccessToken实体类
                 jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
-                if (jsonObject != null) { //如果返回不为空，将返回结果封装进AccessToken实体类
-                    token.setToken(jsonObject.getString("access_token"));//取出access_token
-                    token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
-                }else {
+                if (jsonObject == null) { //如果返回不为空，将返回结果封装进AccessToken实体类
                     throw new Exception("微信公众号获取token异常，appId："+appId);
                 }
             }
         }
+        token.setToken(jsonObject.getString("access_token"));//取出access_token
+        token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
+        token.setCreateTime(new Date().getTime());
         RedisUtils.set("appId::"+appId,token,7000,TimeUnit.SECONDS);
         return token;
     }
@@ -413,7 +409,7 @@ public class WXUtil {
 
         button31.setType("view");
 
-        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/mxtmp/index.html&response_type=code,appId,app_id,AppId&scope=snsapi_userinfo&state=wx550aceeb3b9271a4#wechat_redirect");
+        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/index.html&response_type=code&scope=snsapi_userinfo&state=momo#wechat_redirect");
 
 
         Button button1 = new Button();
@@ -430,7 +426,7 @@ public class WXUtil {
         button2.setSub_button(new Button[]{button21, button22});
 
 
-        menu.setButton(new Button[]{button31});// 将31Button直接作为一级菜单
+        menu.setButton(new Button[]{button1,button2,button31});// 将31Button直接作为一级菜单
 
         return menu;
 

@@ -9,6 +9,7 @@ package com.cn.xt.mp.wx.entity;
 public class AccessToken {
       private  Integer   expiresIn;
       private  String   token;
+      private Long createTime;
 
     public Integer getExpiresIn() {
         return expiresIn;
@@ -24,5 +25,13 @@ public class AccessToken {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 }

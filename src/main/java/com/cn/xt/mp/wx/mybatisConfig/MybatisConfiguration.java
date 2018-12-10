@@ -3,6 +3,7 @@ package com.cn.xt.mp.wx.mybatisConfig;
 
 
 import com.cn.xt.mp.base.mybatis.config.SqlPrintInterceptor;
+import com.cn.xt.mp.base.mybatis.wrapper.MyWrapperFactory;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -79,7 +80,7 @@ public class MybatisConfiguration implements TransactionManagementConfigurer {
                 sessionFactoryBean.setMapperLocations(rL.toArray(new Resource[rL.size()]));
                 //设置mybatis-config.xml配置文件位置
                 sessionFactoryBean.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
-
+                sessionFactoryBean.setObjectWrapperFactory(new MyWrapperFactory());
                 //添加分页插件、打印sql插件
                 Interceptor[] plugins = new Interceptor[]{pageHelper(),sqlPrintInterceptor()};
                 sessionFactoryBean.setPlugins(plugins);

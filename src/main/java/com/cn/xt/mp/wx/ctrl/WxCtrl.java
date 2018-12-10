@@ -73,7 +73,7 @@ public class WxCtrl {
     public String createMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String menu = JSONObject.toJSONString(WXUtil.initMenu());
         System.out.println(menu);
-        WXUtil.createMenu(WXUtil.TOKEN,menu);
+        WXUtil.createMenu(WXUtil.getAccessToken(request.getParameter("appId")).getToken(),menu);
         return "success";
     }
 

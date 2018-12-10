@@ -26,7 +26,8 @@ public class CustomWrapper extends MapWrapper {
              <version>24.1-jre</version>
              </dependency>
              */
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,name);
+            name = name.toLowerCase();
+            return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,name);
         }
         return name;
     }
