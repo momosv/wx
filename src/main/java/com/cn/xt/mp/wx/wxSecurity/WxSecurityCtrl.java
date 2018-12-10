@@ -2,10 +2,14 @@ package com.cn.xt.mp.wx.wxSecurity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cn.xt.mp.base.interfaces.AuthIgnore;
+import com.cn.xt.mp.base.util.SpringUtil;
 import com.cn.xt.mp.wx.entity.AccessToken;
+import com.cn.xt.mp.wx.model.WxSecurityPO;
+import com.cn.xt.mp.wx.service.IWxSecurityService;
 import com.cn.xt.mp.wx.util.Message;
 import com.cn.xt.mp.wx.util.MessageUtil;
 import com.cn.xt.mp.wx.util.WXUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -24,6 +28,9 @@ import java.util.Map;
 @RequestMapping("wxSecurity")
 public class WxSecurityCtrl {
 
+
+    @Autowired
+    private static IWxSecurityService wxSecurityService ;
     /**
      * 服务器配置,get方式
      * @param request
@@ -49,8 +56,9 @@ public class WxSecurityCtrl {
     @ResponseBody
     @RequestMapping("validCode/{diy}")
     public String getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request) throws Exception {
-        JSONObject tObject = WXUtil.getUserTokenByCode(code,"");
-        Map map = request.getParameterMap();
+        WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
+
+        JSONObject tObject = WXUtil.getUserTokenByCode(code,security.getAppId());
         String openId = tObject.getString("openid");
         String user_token = tObject.getString("access_token");
         //判断数据库是否有记录信息
@@ -192,7 +200,7 @@ public class WxSecurityCtrl {
     @GetMapping("freshToken")
     public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             try {
-                AccessToken tk = WXUtil.getAccessToken("");
+                AccessToken tk = WXUtil.getAccessToken(request.getParameter("appId"));
                 System.out.println(tk.getToken());
                 System.out.println(tk.getExpiresIn());
                 WXUtil.TOKEN=tk.getToken();

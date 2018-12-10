@@ -42,14 +42,14 @@ public class WxSecurityServiceImpl extends BasicServiceImpl implements IWxSecuri
     }
     /**
      * 根据个性域名
-     * @param appId
+     * @param doMain
      * @return
      * @throws Exception
      */
     @Override
-    public WxSecurityPO getWxSecurityByDoMain(String appId) throws Exception {
+    public WxSecurityPO getWxSecurityByDoMain(String doMain) throws Exception {
         BasicExample example = new BasicExample(WxSecurityPO.class);
-        example.createCriteria().andVarEqualTo("app_id",appId);
+        example.createCriteria().andVarEqualTo("diy_domain",doMain);
         return (WxSecurityPO)this.selectOneByExample(example);
     }
 

@@ -12,5 +12,5 @@ import com.cn.xt.mp.wx.model.WxSecurityPO;
 public interface IWxSecurityService extends BasicService {
     WxSecurityPO getWxSecurityByAppId(String appId) throws Exception;
 
-    WxSecurityPO getWxSecurityByDoMain(String appId) throws Exception;
+    WxSecurityPO getWxSecurityByDoMain(String diyDomain) throws Exception;
 }
