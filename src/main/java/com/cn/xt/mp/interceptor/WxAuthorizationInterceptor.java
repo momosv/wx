@@ -14,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Logger;
 
 @Component("wxAuthorizationInterceptor")
 public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
@@ -22,10 +23,12 @@ public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("接收到请求:"+request.getServletPath());
+
+        request.getSession().getId();
+       //"接收到请求:
         for (String s : ALLOW_PATH) {
             if(request.getServletPath().contains(s)){
-            System.out.println("不需拦截:"+request.getServletPath());
+               //"不需拦截
                 return true;
             }
         }
@@ -44,8 +47,6 @@ public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
         }else{
             return true;
         }
-
-
 
         //获取用户凭证
         String token = request.getHeader(Constants.USER_TOKEN);

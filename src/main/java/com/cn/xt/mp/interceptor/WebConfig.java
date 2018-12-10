@@ -18,10 +18,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorizationInterceptor).addPathPatterns("/mgr/**")
-        .excludePathPatterns(Arrays.asList("/**.js,/**.css"));
+        .excludePathPatterns(Arrays.asList("/**.js","/**.css"));
 
-        registry.addInterceptor(wxAuthorizationInterceptor).addPathPatterns("/mobile/**")
-                .excludePathPatterns(Arrays.asList("/**.js,/**.css"));
+        registry.addInterceptor(wxAuthorizationInterceptor).addPathPatterns("/mobile/**","/wxSecurity/**")
+                .excludePathPatterns(Arrays.asList("/**.js","/**.css"));
     }
 
 }
