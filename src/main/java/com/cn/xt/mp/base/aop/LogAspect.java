@@ -18,7 +18,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class LogAspect {
-    @Pointcut("execution(* cn.momosv.blog.web.controller.*.*(..))")
+    @Pointcut("execution(* com.cn.xt.mp.wx.ctrl.*.*(..))")
     public void webLog(){}
 
     //环绕通知,环绕增强，相当于MethodInterceptor

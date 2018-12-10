@@ -57,7 +57,7 @@ public class WxCtrl {
     @GetMapping("flushToken")
     public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             try {
-                AccessToken tk = WXUtil.getAccessToken();
+                AccessToken tk = WXUtil.getAccessToken(request.getParameter("appId"));
                 System.out.println(tk.getToken());
                 System.out.println(tk.getExpiresIn());
                 WXUtil.TOKEN=tk.getToken();

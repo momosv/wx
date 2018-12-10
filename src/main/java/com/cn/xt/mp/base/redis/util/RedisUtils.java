@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisUtils {
-  public  static RedisTemplate redisTemplate;
+   public  static RedisTemplate redisTemplate;
 
     private static long l = 30;//过期时长
 

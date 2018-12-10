@@ -12,11 +12,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
+    @Autowired
+    private WxAuthorizationInterceptor wxAuthorizationInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/**")
+        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/mgr/**")
         .excludePathPatterns(Arrays.asList("/**.js,/**.css"));
+
+        registry.addInterceptor(wxAuthorizationInterceptor).addPathPatterns("/mobile/**")
+                .excludePathPatterns(Arrays.asList("/**.js,/**.css"));
     }
 
 }

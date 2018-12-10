@@ -1,5 +1,8 @@
 package com.cn.xt.mp.wx.wxSecurity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -11,6 +14,7 @@ import java.util.Arrays;
  * @date 2018/11/28 11:24
  **/
 public class CheckUtil {
+
 
     public static boolean checkSignature(String token,String signature,String timestamp,String nonce){
        //1.定义数组存放tooken，timestamp,nonce

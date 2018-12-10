@@ -1,4 +1,4 @@
-package com.cn.xt.mp.wx.component;
+package com.cn.xt.mp.base.tokenManager;
 
 
 import com.cn.xt.mp.wx.model.UserInfoPO;

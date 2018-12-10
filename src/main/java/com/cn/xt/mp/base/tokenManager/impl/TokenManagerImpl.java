@@ -1,8 +1,7 @@
-package com.cn.xt.mp.wx.component.impl;
+package com.cn.xt.mp.base.tokenManager.impl;
 
-
+import com.cn.xt.mp.base.tokenManager.*;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
-import com.cn.xt.mp.wx.component.TokenManager;
 import com.cn.xt.mp.wx.model.UserInfoPO;
 import org.springframework.stereotype.Component;
 

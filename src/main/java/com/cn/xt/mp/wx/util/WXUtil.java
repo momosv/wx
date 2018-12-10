@@ -2,7 +2,11 @@ package com.cn.xt.mp.wx.util;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.cn.xt.mp.base.redis.util.RedisUtils;
+import com.cn.xt.mp.base.util.SpringUtil;
 import com.cn.xt.mp.wx.entity.AccessToken;
+import com.cn.xt.mp.wx.model.WxSecurityPO;
+import com.cn.xt.mp.wx.service.IWxSecurityService;
 import com.cn.xt.mp.wx.wxmenu.Menu;
 import com.cn.xt.mp.wx.entity.TemplateData;
 import com.cn.xt.mp.wx.entity.WeChatTemplate;
@@ -21,7 +25,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.net.ssl.SSLContext;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -33,6 +40,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -42,7 +50,12 @@ import java.util.Map;
  * @date 2018/11/28 16:24
  **/
 
+@Component
 public class WXUtil {
+
+    private static IWxSecurityService wxSecurityService = SpringUtil.getBean("businessService", IWxSecurityService.class);
+
+
     //从微信后台拿到APPID和APPSECRET 并封装为常量
     public static String TOKEN = "16_XDNWOcJrLaDhJgICVEe4CiB9-aRLFmtx0FCXUtY28xb4JRPea_LXGjOBQxzprfK0MwLFC6AGr_X0dIydPs0X4I6M9kyRRVPkAiYeuxkRBAQL8xzolKqaR4YichhWdTCGpJV5GAe_Zt0ZX8UMSYUaAIALRN";
 
@@ -213,14 +226,34 @@ public class WXUtil {
      *
      * @return 返回拿到的access_token及有效期
      */
-    public static AccessToken getAccessToken() throws Exception {
+    public static AccessToken getAccessToken(String appId) throws Exception {
+        if(RedisUtils.hasKey("appId::"+appId)){
+              AccessToken token = (AccessToken) RedisUtils.get("appId::"+appId);
+        }
+        WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
         AccessToken token = new AccessToken();
-        String url = ACCESS_TOKEN_URL.replace("APPID", APPID).replace("APPSECRET", APPSECRET);//将URL中的两个参数替换掉
-        JSONObject jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
+        String url = ACCESS_TOKEN_URL.replace("APPID", appId).replace("APPSECRET", securityPO.getAppSecret());//将URL中的两个参数替换掉
+        JSONObject jsonObject = doGetStr(url);//使用doGet方法接收结果
+        //三次访问
         if (jsonObject != null) { //如果返回不为空，将返回结果封装进AccessToken实体类
             token.setToken(jsonObject.getString("access_token"));//取出access_token
             token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
+        }else {
+             jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
+            if (jsonObject != null) { //如果返回不为空，将返回结果封装进AccessToken实体类
+                token.setToken(jsonObject.getString("access_token"));//取出access_token
+                token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
+            }else {
+                jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
+                if (jsonObject != null) { //如果返回不为空，将返回结果封装进AccessToken实体类
+                    token.setToken(jsonObject.getString("access_token"));//取出access_token
+                    token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
+                }else {
+                    throw new Exception("微信公众号获取token异常，appId："+appId);
+                }
+            }
         }
+        RedisUtils.set("appId::"+appId,token,7000,TimeUnit.SECONDS);
         return token;
     }
 
@@ -380,7 +413,7 @@ public class WXUtil {
 
         button31.setType("view");
 
-        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://192.168.137.1/index.html&response_type=code,appId,app_id,AppId&scope=snsapi_userinfo&state=wx550aceeb3b9271a4#wechat_redirect");
+        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/mxtmp/index.html&response_type=code,appId,app_id,AppId&scope=snsapi_userinfo&state=wx550aceeb3b9271a4#wechat_redirect");
 
 
         Button button1 = new Button();
@@ -447,10 +480,12 @@ public class WXUtil {
     }
 
 
-    public static JSONObject getUserTokenByCode(String code) throws Exception {
+    public static JSONObject getUserTokenByCode(String code,String appId) throws Exception {
+
+        WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
         int result = 0;
         String errmsg = "ok";
-        String url = USER_ACCESS_TOKEN_URL.replace("APPID", APPID).replace("SECRET", APPSECRET).replace("CODE", code);
+        String url = USER_ACCESS_TOKEN_URL.replace("APPID", appId).replace("SECRET", securityPO.getAppSecret()).replace("CODE", code);
         JSONObject jsonObject = doGetStr(url);
         if (jsonObject != null && jsonObject.containsKey("errcode") && 0 != jsonObject.getInteger("errcode")) {
             result = jsonObject.getInteger("errcode");

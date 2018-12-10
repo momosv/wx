@@ -1,8 +1,11 @@
-package com.cn.xt.mp.wx.component.impl;
+package com.cn.xt.mp.base.tokenManager.impl;
+
+
+import com.cn.xt.mp.base.tokenManager.*;
 
 
 import com.cn.xt.mp.base.util.Constants;
-import com.cn.xt.mp.wx.component.TokenManager;
+
 import com.cn.xt.mp.wx.model.UserInfoPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

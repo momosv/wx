@@ -49,7 +49,7 @@ public class WxSecurityCtrl {
     @ResponseBody
     @RequestMapping("validCode/{diy}")
     public String getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request) throws Exception {
-        JSONObject tObject = WXUtil.getUserTokenByCode(code);
+        JSONObject tObject = WXUtil.getUserTokenByCode(code,"");
         Map map = request.getParameterMap();
         String openId = tObject.getString("openid");
         String user_token = tObject.getString("access_token");
@@ -189,10 +189,10 @@ public class WxSecurityCtrl {
     }
 
     @AuthIgnore
-    @GetMapping("flushToken")
+    @GetMapping("freshToken")
     public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             try {
-                AccessToken tk = WXUtil.getAccessToken();
+                AccessToken tk = WXUtil.getAccessToken("");
                 System.out.println(tk.getToken());
                 System.out.println(tk.getExpiresIn());
                 WXUtil.TOKEN=tk.getToken();
