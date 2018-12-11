@@ -20,14 +20,14 @@ public class Msg {
 
 	public static Msg success(){
 		Msg result = new Msg();
-		result.setCode(100);
+		result.setCode(0);
 		result.setMsg("处理成功！");
 		return result;
 	}
 	
 	public static Msg fail(){
 		Msg result = new Msg();
-		result.setCode(200);
+		result.setCode(-1);
 		result.setMsg("处理失败！");
 		return result;
 	}

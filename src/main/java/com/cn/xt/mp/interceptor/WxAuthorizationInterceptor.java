@@ -1,7 +1,7 @@
 package com.cn.xt.mp.interceptor;
 
 
-import com.cn.xt.mp.base.exception.MyException;
+import com.cn.xt.mp.base.exception.DiyException;
 import com.cn.xt.mp.base.interfaces.AuthIgnore;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
 import com.cn.xt.mp.base.util.Constants;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component("wxAuthorizationInterceptor")
 public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-     final static String[] ALLOW_PATH={"/webjars","/wxSecurity/access/","wxSecurity/validCode/"};
+     final static String[] ALLOW_PATH={"/webjars","/wxSecurity/access1/","wxSecurity/validCode/"};
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -64,7 +64,7 @@ public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
             throw new AuthException(Constants.USER_TOKEN + "不能为空"+"|"+ HttpStatus.UNAUTHORIZED.value());
         }
         if(!RedisUtils.hasKey(token)){
-            throw new MyException("登录已经过期");
+            throw new DiyException("登录已经过期");
         }
        // RedisUtils.expire(token,60*30);
 

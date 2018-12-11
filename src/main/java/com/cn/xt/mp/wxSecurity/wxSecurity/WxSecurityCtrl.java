@@ -62,6 +62,9 @@ public class WxSecurityCtrl {
         String openId = tObject.getString("openid");
         String user_token = tObject.getString("access_token");
         //判断数据库是否有记录信息
+
+
+
         if(false){
             return tObject.toJSONString();
         }else{

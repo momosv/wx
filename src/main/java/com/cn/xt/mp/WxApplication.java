@@ -1,5 +1,7 @@
 package com.cn.xt.mp;
 
+import com.cn.xt.mp.base.exception.DiyException;
+import com.cn.xt.mp.wxSecurity.util.TestUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,7 +19,8 @@ public class WxApplication  extends SpringBootServletInitializer {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DiyException {
       SpringApplication.run(WxApplication.class, args);
+        TestUtil.diy();
     }
 }

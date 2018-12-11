@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.security.auth.login.LoginException;
+import javax.security.auth.message.AuthException;
 
 @ResponseBody
 @SuppressWarnings("all")
@@ -21,22 +22,22 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler
     private Msg exceptionHandle(Exception e) {
-        e.printStackTrace();
-        if(e.getMessage().equals("nullUser")){
-            return Msg.fail().setCode(-1).add("msg", e.getMessage());
-        }
-        if (e instanceof LoginException) {
+//        if(e.getMessage().equals("nullUser")){
+//            return Msg.fail().setCode(-1).add("msg", e.getMessage());
+//        }
+//        if (e instanceof LoginException) {
+//            return Msg.fail().add("msg", e.getMessage());
+//        }
+//        if (e instanceof NullPointerException) {
+//            return Msg.fail().add("msg", e.getMessage());
+//        }
+        if (e instanceof AuthException) {
             return Msg.fail().add("msg", e.getMessage());
         }
-        if (e instanceof NullPointerException) {
-            return Msg.fail().add("msg", e.getMessage());
-        }
-        if (e instanceof MissingServletRequestParameterException) {
-            return Msg.fail().add("msg", e.getMessage());
-        }
-        if (e instanceof MyException) {
+        if (e instanceof DiyException) {
             return Msg.fail(e.getMessage());
         }
+
         return  Msg.fail().add("msg",StringUtils.isEmpty(e.getMessage())?"系统出现异常":e.getMessage());
     }
 }
