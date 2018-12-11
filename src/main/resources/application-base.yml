@@ -47,7 +47,7 @@ spring:
         filters: stat
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       slaver:
-        url: jdbc:mysql://106.14.146.223:3306/qqjymp?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
+        url: jdbc:mysql://106.14.146.223:3307/qqjymp?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
         username: root
         password: 123456
         useGlobalDataSourceStat: true # 合并多个DruidDataSource的监控数据

@@ -2,7 +2,7 @@ package com.cn.xt.mp.base.tokenManager.impl;
 
 import com.cn.xt.mp.base.tokenManager.*;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
-import com.cn.xt.mp.wx.model.UserInfoPO;
+import com.cn.xt.mp.base.entity.UserInfoPO;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

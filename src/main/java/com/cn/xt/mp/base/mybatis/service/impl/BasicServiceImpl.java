@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class BasicServiceImpl implements BasicService {
  
-	@Resource
+
 	private BasicMapper basicMapper;
 
 	public void setMapper(BasicMapper basicMapper){

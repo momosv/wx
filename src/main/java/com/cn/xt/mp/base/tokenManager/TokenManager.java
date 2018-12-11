@@ -1,7 +1,7 @@
 package com.cn.xt.mp.base.tokenManager;
 
 
-import com.cn.xt.mp.wx.model.UserInfoPO;
+import com.cn.xt.mp.base.entity.UserInfoPO;
 
 public interface TokenManager {
 

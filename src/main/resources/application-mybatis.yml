@@ -1,10 +1,12 @@
 mybatis:
-  ext:
-     mapper-locations:
-      # - classpath*:/ws-mapper/*.xml # 数组，用 -  接收
-  mapper-locations: /base-mapper/*.xml
-  type-aliases-package: com.cn.xt.mp.wx.entity
-  config-location: classpath:/mybatis-config.xml
+  readonly-mapper-locations:
+      - classpath*:/mapper/*.xml # 数组，用 -  接收
+      - classpath*:/mapper/readonlyMapper/*.xml # 数组，用 -  接收
+  mapper-locations:
+      - classpath*:/mapper/*.xml
+      - classpath*:/mapper/mapper/*.xml # 数组，用 -  接收
+  type-aliases-package: com.cn.xt.mp.mpModel
+  config-location: classpath:mybatis-config.xml
 
       #    order: 1
 
@@ -26,11 +28,3 @@ mybatis:
 #            enable: true
 #            required: true
 
-
-
-#security:
-#  user:
-#    name: momo
-#    password: 123
-#  basic:
-#    enabled: false
