@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.xt.mp.dao.dao.WxSecurityPOMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.xt.mp.mpModel.WxSecurityPO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="app_secret" property="appSecret" jdbcType="VARCHAR" />
+    <result column="server_url" property="serverUrl" jdbcType="VARCHAR" />
+    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="diy_domain" property="diyDomain" jdbcType="VARCHAR" />
+    <result column="agency_id" property="agencyId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, app_id, app_secret, server_url, token, diy_domain, agency_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wx_security
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+</mapper>
