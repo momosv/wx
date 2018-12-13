@@ -88,4 +88,17 @@ public class TbCompanyUser  extends IBaseDBPO {
     public void _setPKValue(Object var){
         id =  var.toString();
     }
+
+    @Override
+    public String toString() {
+        return "TbCompanyUser{" +
+                "id='" + id + '\'' +
+                ", openid='" + openid + '\'' +
+                ", account='" + account + '\'' +
+                ", psw='" + psw + '\'' +
+                ", name='" + name + '\'' +
+                ", companyId='" + companyId + '\'' +
+                ", auth=" + auth +
+                '}';
+    }
 }

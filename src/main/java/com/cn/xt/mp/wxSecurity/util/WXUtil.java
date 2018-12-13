@@ -2,6 +2,7 @@ package com.cn.xt.mp.wxSecurity.util;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.cn.xt.mp.base.exception.DiyException;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
 import com.cn.xt.mp.base.util.SpringUtil;
 import com.cn.xt.mp.mpModel.WxSecurityPO;
@@ -58,7 +59,6 @@ public class WXUtil {
 
     //从微信后台拿到APPID和APPSECRET 并封装为常量
     public static String TOKEN = "16_XDNWOcJrLaDhJgICVEe4CiB9-aRLFmtx0FCXUtY28xb4JRPea_LXGjOBQxzprfK0MwLFC6AGr_X0dIydPs0X4I6M9kyRRVPkAiYeuxkRBAQL8xzolKqaR4YichhWdTCGpJV5GAe_Zt0ZX8UMSYUaAIALRN";
-
     private static final String APPID = "wx550aceeb3b9271a4";
     private static final String APPSECRET = "2ec7cc8fa3c7c229c9244cf39affb31c";
     private static final String ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
@@ -147,7 +147,6 @@ public class WXUtil {
     public static String createPermanentQRCode(String accessToken, String sceneStr) throws Exception {
         //获取数据的地址（微信提供）
         String url = QRCODE_TICKET_URL.replace("ACCESS_TOKEN", TOKEN);
-
         //发送给微信服务器的数据
         String jsonStr = "{\"expire_seconds\": 2592000,\"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": " + "momo" + "}}}";
         String ticket = null;
@@ -158,7 +157,6 @@ public class WXUtil {
             } catch (Exception e) {
                 String errorCode = jsonObject.getString("errcode");
                 String errorMsg = jsonObject.getString("errmsg");
-
             }
         }
         return ticket;
@@ -166,15 +164,11 @@ public class WXUtil {
 
 
     public static Object sendTemplateMessage(String accessToken, WeChatTemplate weChatTemplate) {
-
         String jsonString = JSONObject.toJSONString(weChatTemplate);
-
         weChatTemplate = new WeChatTemplate();
         weChatTemplate.setTemplate_id("vHfhjBgslHV9DfHWRvvukHME6R5ykiMHmSN5PNMPmLI");
         weChatTemplate.setTouser("orXeJ1NIsDaEMtH1cnwoOTmYewL0");//此处是用户的OpenId
-
         weChatTemplate.setUrl("");
-
         Map<String, TemplateData> m = new HashMap<String, TemplateData>();
         TemplateData first = new TemplateData();
         first.setColor("#66CCFF");
@@ -210,10 +204,8 @@ public class WXUtil {
         String errmsg = null;
         Integer result = null;
         if (json != null) {
-
             result = json.getInteger("errcode");
             errmsg = json.getString("errmsg");
-
         }
         System.out.println(result + errmsg);
         return json;
@@ -227,9 +219,9 @@ public class WXUtil {
      * @return 返回拿到的access_token及有效期
      */
     public static AccessToken getAccessToken(String appId) throws Exception {
-        if(RedisUtils.hasKey("appId::"+appId)){
-              AccessToken token = (AccessToken) RedisUtils.get("appId::"+appId);
-              return token;
+        if (RedisUtils.hasKey("appId::" + appId)) {
+            AccessToken token = (AccessToken) RedisUtils.get("appId::" + appId);
+            return token;
         }
         WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
         AccessToken token = new AccessToken();
@@ -237,18 +229,18 @@ public class WXUtil {
         //三次访问
         JSONObject jsonObject = doGetStr(url);//使用doGet方法接收结果
         if (jsonObject == null) { //如果返回不为空，将返回结果封装进AccessToken实体类
-             jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
+            jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
             if (jsonObject == null) { //如果返回不为空，将返回结果封装进AccessToken实体类
                 jsonObject = doGetStr(url);//使用刚刚写的doGet方法接收结果
                 if (jsonObject == null) { //如果返回不为空，将返回结果封装进AccessToken实体类
-                    throw new Exception("微信公众号获取token异常，appId："+appId);
+                    throw new Exception("微信公众号获取token异常，appId：" + appId);
                 }
             }
         }
         token.setToken(jsonObject.getString("access_token"));//取出access_token
         token.setExpiresIn(jsonObject.getInteger("expires_in"));//取出access_token的有效期
         token.setCreateTime(new Date().getTime());
-        RedisUtils.set("appId::"+appId,token,7000,TimeUnit.SECONDS);
+        RedisUtils.set("appId::" + appId, token, 7000, TimeUnit.SECONDS);
         return token;
     }
 
@@ -309,15 +301,9 @@ public class WXUtil {
             out.write(bufferOut, 0, bytes);
         }
         in.close();
-
-
 //结尾部分
         byte[] foot = ("\r\n--" + BOUNDARY + "--\r\n").getBytes("utf-8");//定义最后数据分隔线
-
-
         out.write(foot);
-
-
         out.flush();
         out.close();
 
@@ -366,128 +352,68 @@ public class WXUtil {
 
         Menu menu = new Menu();
 
-        ClickButton button11 = new ClickButton();
-
-        button11.setName("了解杰瑞教育");
-
-        button11.setType("click");
-
-        button11.setKey("11");
-
-
-        ClickButton button12 = new ClickButton();
-
-        button12.setName("加入杰瑞教育");
-
-        button12.setType("click");
-
-        button12.setKey("12");
-
-
-        ViewButton button21 = new ViewButton();
-
-        button21.setName("杰瑞教育官网");
-
-        button21.setType("view");
-
-        button21.setUrl("http://www.jerehedu.com");
-
-
-        ViewButton button22 = new ViewButton();
-
-        button22.setName("杰瑞教育新闻网");
-
-        button22.setType("view");
-
-        button22.setUrl("http://www.jredu100.com");
-
-
         ViewButton button31 = new ViewButton();
-
-        button31.setName("个人中心");
-
+        button31.setName("企业反馈");
         button31.setType("view");
-
         button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/index.html&response_type=code&scope=snsapi_userinfo&state=momo#wechat_redirect");
 
 
-        Button button1 = new Button();
+        ViewButton button32 = new ViewButton();
+        button32.setName("政府入口");
+        button32.setType("view");
+        button32.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/index.html&response_type=code&scope=snsapi_userinfo&state=momo#wechat_redirect");
 
-        button1.setName("杰瑞教育"); //将11/12两个button作为二级菜单封装第一个一级菜单
+        ClickButton button11 = new ClickButton();
+        button11.setName("了解亲清家园");
+        button11.setType("click");
+        button11.setKey("11");
+        ViewButton button12 = new ViewButton();
+        button12.setName("亲清家园官网");
+        button12.setType("view");
+        button12.setUrl("http://51xt.com.cn");
+        Button button33 = new Button();
+        button33.setName("亲清家园"); //将11/12两个button作为二级菜单封装第一个一级菜单
+        button33.setSub_button(new Button[]{button11, button12});
 
-        button1.setSub_button(new Button[]{button11, button12});
-
-
-        Button button2 = new Button();
-
-        button2.setName("相关网址"); //将21/22两个button作为二级菜单封装第二个二级菜单
-
-        button2.setSub_button(new Button[]{button21, button22});
-
-
-        menu.setButton(new Button[]{button1,button2,button31});// 将31Button直接作为一级菜单
-
+        menu.setButton(new Button[]{button31, button32, button33});// 将Button直接作为一级菜单
         return menu;
 
     }
 
-    public static int createMenu(String token, String menu) throws Exception {
-
-        int result = 0;
-        String errmsg = "ok";
-        String url = CREATE_MENU_URL.replace("ACCESS_TOKEN", token);
-        JSONObject jsonObject = doPostStr(url, menu);
-        if (jsonObject != null) {
-            result = jsonObject.getInteger("errcode");
-            errmsg = jsonObject.getString("errmsg");
-
-        }
+    public static JSONObject createMenu(String appId, String menu) throws Exception {
+        AccessToken token = getAccessToken(appId);
+        String url = CREATE_MENU_URL.replace("ACCESS_TOKEN", token.getToken());
+        JSONObject result = doPostStr(url, menu);
         return result;
     }
 
     public static JSONObject getUserByMgr(String token, String openId) throws Exception {
-        int result = 0;
-        String errmsg = "ok";
         String url = USER_DETAIL_URL.replace("ACCESS_TOKEN", token).replace("OPENID", openId);
         JSONObject jsonObject = doGetStr(url);
-        if (jsonObject != null && jsonObject.containsKey("errcode") && 0 != jsonObject.getInteger("errcode")) {
-            result = jsonObject.getInteger("errcode");
-            errmsg = jsonObject.getString("errmsg");
-        }
-        System.out.println(jsonObject);
-        System.out.println(result + errmsg);
+//        if (jsonObject != null && jsonObject.containsKey("errcode") && 0 != jsonObject.getInteger("errcode")) {
+//            result = jsonObject.getInteger("errcode");
+//            errmsg = jsonObject.getString("errmsg");
+//        }
         return jsonObject;
     }
 
     public static JSONObject getUserByUserToken(String token, String openId) throws Exception {
-
-        int result = 0;
-        String errmsg = "ok";
         String url = USER_DETAIL_URL_BY_USER_TOKEN.replace("ACCESS_TOKEN", token).replace("OPENID", openId);
         JSONObject jsonObject = doGetStr(url);
         if (jsonObject != null && jsonObject.containsKey("errcode") && 0 != jsonObject.getInteger("errcode")) {
-            result = jsonObject.getInteger("errcode");
-            errmsg = jsonObject.getString("errmsg");
+//            jsonObject.getInteger("errcode");
+//            jsonObject.getString("errmsg");
+            throw new DiyException(jsonObject.getString("errmsg"));
         }
-        System.out.println(jsonObject);
-        System.out.println(result + errmsg);
         return jsonObject;
     }
 
 
-    public static JSONObject getUserTokenByCode(String code,String appId) throws Exception {
-
+    public static JSONObject getUserTokenByCode(String code, String appId) throws Exception {
         WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
-        int result = 0;
-        String errmsg = "ok";
         String url = USER_ACCESS_TOKEN_URL.replace("APPID", appId).replace("SECRET", securityPO.getAppSecret()).replace("CODE", code);
         JSONObject jsonObject = doGetStr(url);
-        if (jsonObject != null && jsonObject.containsKey("errcode") && 0 != jsonObject.getInteger("errcode")) {
-            result = jsonObject.getInteger("errcode");
-            errmsg = jsonObject.getString("errmsg");
-        }
         System.out.println(jsonObject);
-        System.out.println(result + errmsg);
         return jsonObject;
     }
 

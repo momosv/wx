@@ -45,7 +45,7 @@ public class AuthManager {
      */
     public UserInfoPO getUserInfo() throws AuthException {
         HttpServletRequest request=getRequest();
-        String token=request.getAttribute(Constants.USER_TOKEN).toString();
+        String token=request.getAttribute(Constants.COMPANY_USER_TOKEN).toString();
         UserInfoPO userInfo=tokenManager.getUserInfoByToken(token);
         if(userInfo==null){
             throw new AuthException("该用户已过期"+"|"+ HttpStatus.UNAUTHORIZED.value());
@@ -59,7 +59,7 @@ public class AuthManager {
      */
     public void refreshUserInfo(){
         HttpServletRequest request=getRequest();
-        String token=request.getAttribute(Constants.USER_TOKEN).toString();
+        String token=request.getAttribute(Constants.COMPANY_USER_TOKEN).toString();
         tokenManager.refreshUserToken(token);
     }
 
@@ -68,7 +68,7 @@ public class AuthManager {
      */
     public void loginOff(){
         HttpServletRequest request=getRequest();
-        String token=request.getAttribute(Constants.USER_TOKEN).toString();
+        String token=request.getAttribute(Constants.COMPANY_USER_TOKEN).toString();
         tokenManager.loginOff(token);
     }
 }

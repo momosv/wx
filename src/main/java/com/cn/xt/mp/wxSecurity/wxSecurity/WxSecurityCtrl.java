@@ -1,14 +1,24 @@
 package com.cn.xt.mp.wxSecurity.wxSecurity;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.interfaces.AuthIgnore;
+import com.cn.xt.mp.base.redis.util.RedisUtils;
+import com.cn.xt.mp.base.util.Constants;
+import com.cn.xt.mp.base.util.MD5Util;
+import com.cn.xt.mp.mpModel.TbCompanyUser;
 import com.cn.xt.mp.mpModel.WxSecurityPO;
+import com.cn.xt.mp.mpModel.WxUserInfoPO;
+import com.cn.xt.mp.service.ICompanyUserService;
+import com.cn.xt.mp.service.IWxUserInfoService;
+import com.cn.xt.mp.vo.CompanyUserVO;
 import com.cn.xt.mp.wxSecurity.wxentity.AccessToken;
 
 import com.cn.xt.mp.service.IWxSecurityService;
 import com.cn.xt.mp.wxSecurity.util.Message;
 import com.cn.xt.mp.wxSecurity.util.MessageUtil;
 import com.cn.xt.mp.wxSecurity.util.WXUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author linshengwen
@@ -30,7 +42,11 @@ public class WxSecurityCtrl {
 
 
     @Autowired
-    private  IWxSecurityService wxSecurityService ;
+    private  IWxSecurityService wxSecurityService;
+    @Autowired
+    private IWxUserInfoService wxUserInfoService;
+    @Autowired
+    private ICompanyUserService CompanyUserService;
     /**
      * 服务器配置,get方式
      * @param request
@@ -55,21 +71,35 @@ public class WxSecurityCtrl {
     }
 
     @ResponseBody
-    @RequestMapping("validCode/{diy}")
-    public String getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request) throws Exception {
+    @RequestMapping("company/validCode/{diy}")
+    public Msg getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request,HttpServletResponse response) throws Exception {
         WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
         JSONObject tObject = WXUtil.getUserTokenByCode(code,security.getAppId());
         String openId = tObject.getString("openid");
         String user_token = tObject.getString("access_token");
         //判断数据库是否有记录信息
-
-
-
-        if(false){
-            return tObject.toJSONString();
-        }else{
-            return  WXUtil.getUserByUserToken(user_token,openId).toJSONString();
+        CompanyUserVO companyUserVO = CompanyUserService.getCompanyVOUserByOpenid(openId);
+        if(null == companyUserVO){//查询wx接口，获取数据，存储到数据库
+            TbCompanyUser tbCompanyUser = new TbCompanyUser();
+            WxUserInfoPO wxUserInfoPO = JSONObject.toJavaObject(WXUtil.getUserByUserToken(user_token, openId), WxUserInfoPO.class);
+            wxUserInfoPO.setAppId(security.getAppId());//记录公众号
+            tbCompanyUser.setOpenid(wxUserInfoPO.getOpenid());
+            tbCompanyUser.setName(wxUserInfoPO.getNickname());
+            tbCompanyUser.setAuth(0);//未认证
+            tbCompanyUser.setId(UUID.randomUUID().toString());
+            CompanyUserService.insertOne(wxUserInfoPO);
+            CompanyUserService.insertOne(tbCompanyUser);
+            companyUserVO = new CompanyUserVO();
+            BeanUtils.copyProperties(wxUserInfoPO, companyUserVO);
+            tbCompanyUser.setName(wxUserInfoPO.getNickname());
+            tbCompanyUser.setAuth(0);//未认证
+            companyUserVO.setId(tbCompanyUser.getId());
         }
+        String webToken = MD5Util.encrypt(companyUserVO.getId()+UUID.randomUUID().toString());
+        RedisUtils.set(Constants.COMPANY_USER_TOKEN+"::"+webToken,companyUserVO,7200,TimeUnit.SECONDS);
+        request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN,webToken);
+        response.setHeader(Constants.COMPANY_USER_TOKEN,webToken);
+        return Msg.success().add("companyUser",companyUserVO).add("companyUserToken",webToken);
     }
 
 
@@ -199,33 +229,19 @@ public class WxSecurityCtrl {
        return   WXUtil.getUserByUserToken(token,openid).toJSONString();
     }
 
-    @AuthIgnore
-    @GetMapping("freshToken")
-    public String flushToken(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            try {
-                AccessToken tk = WXUtil.getAccessToken(request.getParameter("appId"));
-                System.out.println(tk.getToken());
-                System.out.println(tk.getExpiresIn());
-                WXUtil.TOKEN=tk.getToken();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        return "success";
-    }
 
     @AuthIgnore
-    @RequestMapping("createMenu")
-    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping("createMenu/{diy}")
+    public Msg createMenu(@PathVariable String diy,HttpServletRequest request, HttpServletResponse response) throws Exception {
+        WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
+        if(security == null){
+            return Msg.fail("处理的公众号尚未接入");
+        }
         String menu = JSONObject.toJSONString(WXUtil.initMenu());
-        System.out.println(menu);
-        WXUtil.createMenu(WXUtil.TOKEN,menu);
-        return "success";
+       JSONObject result = WXUtil.createMenu(security.getAppId(),menu);
+       if(result!=null){
+           return Msg.success(result.getString("errmsg")).setCode(result.getInteger("errcode"));
+       }
+       return Msg.fail();
     }
-
-
-
-
-
 }

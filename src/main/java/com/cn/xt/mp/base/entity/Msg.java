@@ -48,14 +48,14 @@ public class Msg {
 	
 	public static Msg success(String msg){
 		Msg result = new Msg();
-		result.setCode(100);
+		result.setCode(0);
 		result.setMsg(msg);
 		return result;
 	}
 	
 	public static Msg fail(String msg){
 		Msg result = new Msg();
-		result.setCode(200);
+		result.setCode(-1);
 		result.setMsg(msg);
 		return result;
 	}

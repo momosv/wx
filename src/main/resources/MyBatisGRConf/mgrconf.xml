@@ -21,116 +21,126 @@
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources\base-mapper" >
+        <sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources\mapper" >
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
         <!--     <collection property="user_id" resultMap="cn.momosv.springboot.dao.TbTestMapper.BaseResultMap"></collection> -->
-        <javaClientGenerator targetPackage="com.cn.xt.mp.dao"
+        <javaClientGenerator targetPackage="com.cn.xt.mp.dao.dao"
                              targetProject=".\src\main\java" type="XMLMAPPER" />
 
 
-        <table tableName="wx_security" domainObjectName="WxSecurityPO"
+        <table tableName="tb_exception_log" domainObjectName="tbExceptionLog"
                enableInsert="false"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
                enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                enableCountByExample="false"
-               enableUpdateByExample="false"/>
-        <table  tableName="wx_user_info" domainObjectName="WxUserInfoPO"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-            <columnOverride column="subscribe" javaType="java.lang.Integer"/>
-             <columnOverride column="sex" javaType="java.lang.Integer"/>
+               enableUpdateByExample="false">
+            <columnOverride column="is_view" javaType="java.lang.Integer"/>
         </table>
+        <!--<table tableName="wx_security" domainObjectName="WxSecurityPO"-->
+               <!--enableInsert="false"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="false"-->
+               <!--enableDeleteByPrimaryKey="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+        <!--<table  tableName="wx_user_info" domainObjectName="WxUserInfoPO"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="subscribe" javaType="java.lang.Integer"/>-->
+             <!--<columnOverride column="sex" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
 
-        <table  tableName="tb_accepting_unit" domainObjectName="TbAcceptingUnit"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-        </table>
-        <table  tableName="tb_accepting_unit_user" domainObjectName="TbAcceptingUnitUser"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-            <columnOverride column="type" javaType="java.lang.Integer"/>
-            <columnOverride column="grade" javaType="java.lang.Integer"/>
-             <columnOverride column="sex" javaType="java.lang.Integer"/>
-        </table>
-        <table  tableName="tb_agency" domainObjectName="TbAgency"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-            <columnOverride column="subscribe" javaType="java.lang.Integer"/>
-             <columnOverride column="sex" javaType="java.lang.Integer"/>
-        </table>
-        <table  tableName="TbAgencyUser" domainObjectName="TbAgencyUser"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-            <columnOverride column="type" javaType="java.lang.Integer"/>
-            <columnOverride column="grade" javaType="java.lang.Integer"/>
-            <columnOverride column="sex" javaType="java.lang.Integer"/>
-        </table>
-        <table  tableName="tb_company" domainObjectName="TbCompany"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-        </table>
-        <table  tableName="tb_company_user" domainObjectName="TbCompanyUser"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-             <columnOverride column="auth" javaType="java.lang.Integer" />
-        </table>
-        <table  tableName="tb_feedback" domainObjectName="TbFeedback"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-            <columnOverride column="type" javaType="java.lang.Integer"/>
-        </table>
-        <table  tableName="tb_feedback_record" domainObjectName="TbFeedbackRecord"
-                enableInsert="false"
-                enableSelectByExample="false"
-                 enableUpdateByPrimaryKey="false"
-                enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false"
-                enableCountByExample="false"
-                enableUpdateByExample="false">
-            <columnOverride column="type" javaType="java.lang.Integer"/>
-        </table>
+        <!--<table  tableName="tb_accepting_unit" domainObjectName="TbAcceptingUnit"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table  tableName="tb_accepting_unit_user" domainObjectName="TbAcceptingUnitUser"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
+            <!--<columnOverride column="grade" javaType="java.lang.Integer"/>-->
+             <!--<columnOverride column="sex" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+        <!--<table  tableName="tb_agency" domainObjectName="TbAgency"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="subscribe" javaType="java.lang.Integer"/>-->
+             <!--<columnOverride column="sex" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+        <!--<table  tableName="TbAgencyUser" domainObjectName="TbAgencyUser"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
+            <!--<columnOverride column="grade" javaType="java.lang.Integer"/>-->
+            <!--<columnOverride column="sex" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+        <!--<table  tableName="tb_company" domainObjectName="TbCompany"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+        <!--</table>-->
+        <!--<table  tableName="tb_company_user" domainObjectName="TbCompanyUser"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+             <!--<columnOverride column="auth" javaType="java.lang.Integer" />-->
+        <!--</table>-->
+        <!--<table  tableName="tb_feedback" domainObjectName="TbFeedback"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
+        <!--<table  tableName="tb_feedback_record" domainObjectName="TbFeedbackRecord"-->
+                <!--enableInsert="false"-->
+                <!--enableSelectByExample="false"-->
+                 <!--enableUpdateByPrimaryKey="false"-->
+                <!--enableDeleteByPrimaryKey="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableCountByExample="false"-->
+                <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

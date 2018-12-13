@@ -1,6 +1,7 @@
 package com.cn.xt.mp.interceptor;
 
 
+import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.exception.DiyException;
 import com.cn.xt.mp.base.interfaces.AuthIgnore;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
@@ -14,24 +15,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component("wxAuthorizationInterceptor")
 public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
 
-     final static String[] ALLOW_PATH={"/webjars","/wxSecurity/access1/","wxSecurity/validCode/"};
+     final static Set<String> ALLOW_PATH= new HashSet<>(Arrays.asList("/webjars","/wxSecurity/access/","wxSecurity/validCode/"));
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        request.getSession().getId();
-       //"接收到请求:
-        for (String s : ALLOW_PATH) {
-            if(request.getServletPath().contains(s)){
-               //"不需拦截
-                return true;
-            }
-        }
-
         AuthIgnore annotation;
         if(handler instanceof HandlerMethod) {
             annotation = ((HandlerMethod) handler).getMethodAnnotation(AuthIgnore.class);
@@ -47,27 +41,30 @@ public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
 
-        //获取用户凭证
-        String token = request.getHeader(Constants.USER_TOKEN);
-        if(StringUtils.isEmpty(token)){
-            token = request.getParameter(Constants.USER_TOKEN);
-        }
-        if(StringUtils.isEmpty(token)){
-            Object obj = request.getSession().getAttribute(Constants.USER_TOKEN);
-            if(null!=obj){
-                token=obj.toString();
+        for (String s : ALLOW_PATH) {
+            if(request.getServletPath().contains(s)){
+                //"不需拦截
+                return true;
             }
         }
-
-        //token凭证为空
+        //获取用户凭证
+        String token = request.getHeader(Constants.COMPANY_USER_TOKEN);
         if(StringUtils.isEmpty(token)){
-            throw new AuthException(Constants.USER_TOKEN + "不能为空"+"|"+ HttpStatus.UNAUTHORIZED.value());
+            token = request.getParameter(Constants.COMPANY_USER_TOKEN);
+            if(StringUtils.isEmpty(token)){
+                Object obj = request.getSession().getAttribute(Constants.COMPANY_USER_TOKEN);
+                if(null!=obj){
+                    token=obj.toString();
+                }else {
+                    throw new DiyException(HttpStatus.UNAUTHORIZED.getReasonPhrase());
+                }
+            }
         }
         if(!RedisUtils.hasKey(token)){
-            throw new DiyException("登录已经过期");
+            throw new DiyException("在线状态已过期");
         }
-       // RedisUtils.expire(token,60*30);
-
+        //延长状态
+        RedisUtils.expire(Constants.COMPANY_USER_TOKEN+"::"+token,7200);
         return true;
     }
 }

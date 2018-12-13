@@ -2,7 +2,9 @@ package com.cn.xt.mp.base.util;
 
 
 public class Constants {
-    public static final String USER_TOKEN = "userToken";
+    public static final String COMPANY_USER_TOKEN = "companyUserToken";
+    public static final String SYS_TOKEN = "sysToken";
+    public static final String UNIT_USER_TOKEN = "unitUserToken";
     int MAX_FILE_UPLOAD_SIZE = 5242880;
    //全部-1,0未审批，1通过，2不通过，3已经审批
    public final static Integer USER_ALL_TYPE=-1;

@@ -18,7 +18,6 @@
         }
 
         function getQueryString(name) {
-            alert(window.location);
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var r = window.location.search.substr(1).match(reg);
             if (r != null) return unescape(r[2]); return null;
@@ -31,7 +30,7 @@
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/wxSecurity/validCode/'+diyDomain ,
+                url : '/wxSecurity/company/validCode/'+diyDomain ,
                 dataType : "json",
                 data:{code:code},
                 error : function() {
