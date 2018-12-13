@@ -17,16 +17,13 @@ import org.springframework.stereotype.Service;
 public class ExceptionLogServiceImpl extends BasicServiceImpl implements IExceptionLogService {
     @Autowired
     TbExceptionLogMapper tbExceptionLogMapper;
-    @Autowired
-    ReadonlyTbExceptionLogMapper ReadonlytbExceptionLogMapper;
 
     @Autowired
     private void setMapper(){
         this.setMapper(tbExceptionLogMapper);
     }
-
-    @Override
     public void insertExceptionLogSelective(TbExceptionLog exceptionLog) {
             this.insertOne(exceptionLog);
     }
+
 }
