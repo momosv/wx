@@ -13,6 +13,7 @@ public class TbFeedbackRecord  extends IBaseDBPO {
 
     private String content;
 
+   // '0 提交，1转发，2 中介驳回，3接收受理，4受理单位驳回 ，5 重新提交',
     private Integer type;
 
     private String creator;

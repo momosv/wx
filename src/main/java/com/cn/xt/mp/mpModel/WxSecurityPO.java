@@ -2,7 +2,9 @@ package com.cn.xt.mp.mpModel;
 
 import com.cn.xt.mp.base.mybatis.model.IBaseDBPO;
 
-public class WxSecurityPO  extends IBaseDBPO {
+import java.io.Serializable;
+
+public class WxSecurityPO  extends IBaseDBPO implements Serializable{
     private Integer id;
 
     private String appId;

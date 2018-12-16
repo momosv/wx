@@ -8,6 +8,8 @@ import com.cn.xt.mp.dao.readonlydao.ReadonlyWxSecurityPOMapper;
 import com.cn.xt.mp.mpModel.WxSecurityPO;
 import com.cn.xt.mp.service.IWxSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -47,13 +49,12 @@ public class WxSecurityServiceImpl extends BasicServiceImpl implements IWxSecuri
      * @throws Exception
      */
     @Override
+    @Cacheable(cacheNames="getWxSecurityByDoMain",key="#doMain")
     public WxSecurityPO getWxSecurityByDoMain(String doMain) throws Exception {
         BasicExample example = new BasicExample(WxSecurityPO.class);
         example.createCriteria().andVarEqualTo("diy_domain",doMain);
-
          WxSecurityPO po =(WxSecurityPO)this.selectOneByExample(example);
-        WxSecurityPO po0 = readonlyWxSecurityPOMapper.selectByPrimaryKey(po.getId());
-        return po0;
+        return po;
 
     }
 

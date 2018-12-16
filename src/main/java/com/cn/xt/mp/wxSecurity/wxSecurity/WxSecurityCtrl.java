@@ -12,15 +12,19 @@ import com.cn.xt.mp.mpModel.WxUserInfoPO;
 import com.cn.xt.mp.service.ICompanyUserService;
 import com.cn.xt.mp.service.IWxUserInfoService;
 import com.cn.xt.mp.vo.CompanyUserVO;
-import com.cn.xt.mp.wxSecurity.wxentity.AccessToken;
 
 import com.cn.xt.mp.service.IWxSecurityService;
 import com.cn.xt.mp.wxSecurity.util.Message;
 import com.cn.xt.mp.wxSecurity.util.MessageUtil;
 import com.cn.xt.mp.wxSecurity.util.WXUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +40,7 @@ import java.util.concurrent.TimeUnit;
  * @description
  * @date 2018/11/28 11:25
  **/
+@Api(value = "WxSecurityCtrl",tags = "mp微信授权",description = "微信相关，包括获取微信用户信息")
 @RestController
 @RequestMapping("wxSecurity")
 public class WxSecurityCtrl {
@@ -55,6 +60,7 @@ public class WxSecurityCtrl {
      * @throws ServletException
      * @throws IOException
      */
+    @ApiIgnore()
     @GetMapping("access/{diy}")
     public String doGet(@PathVariable String diy, HttpServletRequest request, HttpServletResponse response) throws Exception {
         WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
@@ -70,10 +76,20 @@ public class WxSecurityCtrl {
         return null;
     }
 
+    @ApiOperation(value = "显式获取用户信息",notes = "获取用户信息")
+    //@ApiImplicitParam(name="name",value="用户名",dataType="String", paramType = "query")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="diy",value="公众号唯一标识",dataType="string", paramType = "query",example="mp",required = true),
+            @ApiImplicitParam(name="code",value="微信回调的code",dataType="string", paramType = "query",example="061SBT1u0oXqVh1HYo2u0KgD1u0SBT1G",required = true),
+    })
+    @AuthIgnore
     @ResponseBody
-    @RequestMapping("company/validCode/{diy}")
-    public Msg getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    @PostMapping("company/validCode/{diy}")
+    public Msg getUserInfoByFace(@PathVariable String diy , String code, HttpServletRequest request,HttpServletResponse response) throws Exception {
         WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
+        if(security==null){
+            return Msg.fail("链接访问无效，不存在接入的公众号");
+        }
         JSONObject tObject = WXUtil.getUserTokenByCode(code,security.getAppId());
         String openId = tObject.getString("openid");
         String user_token = tObject.getString("access_token");
@@ -102,6 +118,36 @@ public class WxSecurityCtrl {
         return Msg.success().add("companyUser",companyUserVO).add("companyUserToken",webToken);
     }
 
+    @ApiOperation(value = "隐式获取用户信息",notes = "获取用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="diy",value="公众号唯一标识",dataType="string", paramType = "query",example="mp",required = true),
+            @ApiImplicitParam(name="code",value="微信回调的code",dataType="string", paramType = "query",example="061SBT1u0oXqVh1HYo2u0KgD1u0SBT1G",required = true),
+    })
+    @AuthIgnore
+    @ResponseBody
+    @PostMapping("company/validCodeSilently/{diy}")
+    public Msg getUserInfoBySilently(@PathVariable String diy , String code, HttpServletRequest request,HttpServletResponse response) throws Exception {
+        WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
+        if(security==null){
+            return Msg.fail("链接访问无效，不存在接入的公众号");
+        }
+        JSONObject tObject = WXUtil.getUserTokenByCode(code,security.getAppId());
+        String openId = tObject.getString("openid");
+        String user_token = tObject.getString("access_token");
+        //判断数据库是否有记录信息
+        CompanyUserVO companyUserVO = CompanyUserService.getCompanyVOUserByOpenid(openId);
+        if(null == companyUserVO){
+            return Msg.fail("用户尚未授权").setCode(101).add("isAccess",false) .add("appId",security.getAppId()).add("state","validCode/"+diy);
+        }
+        String webToken = MD5Util.encrypt(companyUserVO.getId()+UUID.randomUUID().toString());
+        request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN,webToken);
+        request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN+"::"+webToken,companyUserVO);
+        response.setHeader(Constants.COMPANY_USER_TOKEN,webToken);
+        return Msg.success().add("companyUser",companyUserVO).add(Constants.COMPANY_USER_TOKEN,webToken)
+                .add("isAccess",true)
+               ;
+    }
+
 
     /**
      * 微信客户端交互 post
@@ -111,6 +157,7 @@ public class WxSecurityCtrl {
      * @throws ServletException
      * @throws IOException
      */
+    @ApiIgnore()
     @PostMapping("access/{diy}")
     public String doPost(HttpServletRequest request, HttpServletResponse response)
 
@@ -220,16 +267,18 @@ public class WxSecurityCtrl {
 
 
 
+    @ApiIgnore()
     @RequestMapping("sendTemplateMessage")
     public Object sendTemplateMessage(String token,String openid) throws IOException {
        return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
     }
+    @ApiIgnore()
     @RequestMapping("getUserInfo")
     public String getUserInfo(String token,String openid) throws Exception {
        return   WXUtil.getUserByUserToken(token,openid).toJSONString();
     }
 
-
+    @ApiIgnore()
     @AuthIgnore
     @RequestMapping("createMenu/{diy}")
     public Msg createMenu(@PathVariable String diy,HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -237,7 +286,7 @@ public class WxSecurityCtrl {
         if(security == null){
             return Msg.fail("处理的公众号尚未接入");
         }
-        String menu = JSONObject.toJSONString(WXUtil.initMenu());
+        String menu = JSONObject.toJSONString(WXUtil.initMenu(security.getAppId(), security.getDiyDomain()));
        JSONObject result = WXUtil.createMenu(security.getAppId(),menu);
        if(result!=null){
            return Msg.success(result.getString("errmsg")).setCode(result.getInteger("errcode"));

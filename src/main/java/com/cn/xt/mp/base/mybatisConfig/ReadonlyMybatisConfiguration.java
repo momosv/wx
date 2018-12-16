@@ -1,6 +1,7 @@
 package com.cn.xt.mp.base.mybatisConfig;
 
 
+import com.cn.xt.mp.base.dataSource.DatasourceConfig;
 import com.cn.xt.mp.base.mybatis.wrapper.MyWrapperFactory;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.logging.Log;
@@ -12,6 +13,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +35,8 @@ import java.util.List;
  *
  */
 
-@MapperScan(value = "com.cn.xt.mp.dao.readonlyDao",sqlSessionFactoryRef = "readonlySqlSessionFactory")
+@AutoConfigureAfter(DatasourceConfig.class)
+@MapperScan(value={"com.cn.xt.mp.dao.readonlydao"},sqlSessionFactoryRef="readonlySqlSessionFactory")
 @Configuration
 @EnableTransactionManagement
 @ConfigurationProperties(prefix = "mybatis")
@@ -78,6 +81,7 @@ public class ReadonlyMybatisConfiguration {
             ,@Qualifier("pageHelper") PageHelper pageHelper
             ,@Qualifier("sqlPrintInterceptor")SqlPrintInterceptor sqlPrintInterceptor) throws Exception {
        try{
+       //    VFS.addImplClass(SpringBootVFS.class);
          SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(datasource);
 
@@ -88,9 +92,11 @@ public class ReadonlyMybatisConfiguration {
         //设置mapper.xml文件所在位置
            //设置mapper.xml文件所在位置
            List<Resource> rL = new ArrayList<>();
+           System.out.println("momo");
            for (String mapperLocation : readonlyMapperLocations) {
                Resource[] resources = new PathMatchingResourcePatternResolver().getResources(mapperLocation);
                rL.addAll(Arrays.asList(resources));
+               System.out.println("momo"+mapperLocation);
            }
 /*        Resource[] resource = new PathMatchingResourcePatternResolver().getResources(mapperLocations);
         List<Resource> rL= new ArrayList<>();

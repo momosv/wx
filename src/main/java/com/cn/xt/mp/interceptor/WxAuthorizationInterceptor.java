@@ -60,11 +60,6 @@ public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
-        if(!RedisUtils.hasKey(token)){
-            throw new DiyException("在线状态已过期");
-        }
-        //延长状态
-        RedisUtils.expire(Constants.COMPANY_USER_TOKEN+"::"+token,7200);
         return true;
     }
 }

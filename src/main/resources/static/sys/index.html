@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        function login(){
+            $.ajax({
+                async : false,
+                cache : false,
+                type : 'POST',
+                url : '/sys/login' ,
+                dataType : "json",
+                data:{account:"admin",psw:""},
+                error : function() {
+                    alert('smx失败 ');
+                },
+                success : function(data) {
+                   if(data.code==0){
+                       $("#loginL").hide();
+                       $("#content").show();
+                   }else {
+                       alert("登录失败");
+                   }
+                }
+            });
+        }
+
+        function createMenu(){
+            alert("createMenu");
+            $.ajax({
+                async : false,
+                cache : false,
+                type : 'POST',
+                url : '/sys/createMenu/'+$("#diy").val(),
+                dataType : "json",
+                data:{menu:$("#menu").text()},
+                error : function() {
+                    alert('smx失败 ');
+                },
+                success : function(data) {
+                    if(data.code==0){
+                        alert("创建成功");
+                    }else {
+                        alert("创建失败："+data.msg);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+<div id="loginL" style="width:500px;margin:0 auto;" >
+    <label for="username" style="font-size:18px" >用户名：</label>
+    <div style="height:35px;width:400px;position:relative;display:inline" >   <!--相关位置--> <!--此处为相关位置与绝对位置联合使用-->
+        <input id="username" type="text" style="height:30px;width:350px;padding-right:50px;">
+        <span style="position:absolute;right:18px;top:2px;height:16px;width:16px;display:inline-block;"></span>  <!--绝对位置-->
+    </div>
+    <br/>
+    <br/>
+    <label for="password1" style="font-size:18px" >&nbsp密码：</label>
+    <div style="height:35px;width:400px;position:relative;display:inline" >   <!--相关位置--> <!--此处为相关位置与绝对位置联合使用-->
+        <input id="password1" type="text" style="height:30px;width:350px;padding-right:50px;">
+        <span style="position:absolute;right:16px;top:2px;height:16px;width:16px;display:inline-block;"></span>  <!--绝对位置-->
+    </div>
+    <br/>
+    <br/>
+    <label for="verification_code" style="font-size:18px" >验证码：</label>
+    <input id="verification_code" type="text" style="height:30px;width:350px;">
+    <br/>
+    <br/>
+    <div style="width:426px;float: right;">
+        <input type="radio" name="auto_login" value="1"/> 自动登录
+        <a herf="找回密码网址">忘记密码？</a>
+    </div>
+    <br/>
+    <br/>
+    <div style="width:426px;float: right;">
+        <input type="submit"  value="登录" onclick="login()" style="height:30px;width:400px;background-color:red;"/>
+    </div>
+</div>
+
+<div id="content" style="display:none;width:1000px;margin:0 auto;" >
+    <label for="diy" style="font-size:18px" >创建菜单公众号动态域名</label>
+    <div style="height:35px;width:400px;position:relative;display:inline" >   <!--相关位置--> <!--此处为相关位置与绝对位置联合使用-->
+        <input id="diy" type="text" style="height:30px;width:350px;padding-right:50px;">
+     </div>
+    <br/>
+    <br/>
+    <label for="menu" style="font-size:18px" >menu：</label>
+    <div style="height:35px;width:400px;position:relative;display:inline" >   <!--相关位置--> <!--此处为相关位置与绝对位置联合使用-->
+        <textarea id="menu"  style="height:30px;width:350px;padding-right:50px;"></textarea>
+         </div>
+    <br/>
+    <br/>
+    <div style="width:426px;float: right;">
+        <input type="submit"  value="提交" onclick="createMenu()" style="height:30px;width:400px;background-color:red;"/>
+    </div>
+</div>
+
+
+
+</body>
+</html>

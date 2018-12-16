@@ -1,6 +1,7 @@
 package com.cn.xt.mp.wxSecurity.util;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cn.xt.mp.base.exception.DiyException;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
@@ -220,7 +221,9 @@ public class WXUtil {
      */
     public static AccessToken getAccessToken(String appId) throws Exception {
         if (RedisUtils.hasKey("appId::" + appId)) {
-            AccessToken token = (AccessToken) RedisUtils.get("appId::" + appId);
+            Object object =  RedisUtils.get("appId::" + appId);
+            //热更新会导致object直接转型失败，未知原因，用json进一步转型
+            AccessToken token = JSON.parseObject(JSON.toJSONString(object),AccessToken.class);
             return token;
         }
         WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
@@ -346,25 +349,41 @@ public class WXUtil {
      * 组装菜单
      *
      * @return
+     * @param appId
+     * @param diyDomain
      */
 
-    public static Menu initMenu() {
+    public static Menu initMenu(String appId, String diyDomain) {
 
         Menu menu = new Menu();
 
-        ViewButton button31 = new ViewButton();
-        button31.setName("企业反馈");
-        button31.setType("view");
-        button31.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/index.html&response_type=code&scope=snsapi_userinfo&state=momo#wechat_redirect");
 
+//        scope为snsapi_base
+//        https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520c15f417810387&redirect_uri=https%3A%2F%2Fchong.qq.com%2Fphp%2Findex.php%3Fd%3D%26c%3DwxAdapter%26m%3DmobileDeal%26showwxpaytitle%3D1%26vb2ctag%3D4_2030_5_1194_60&response_type=code&scope=snsapi_base&state=123#wechat_redirect
+//        scope为snsapi_userinfo
+//        https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf0e81c3bee622d60&redirect_uri=http%3A%2F%2Fnba.bluewebgame.com%2Foauth_response.php&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+
+
+        ViewButton button310 = new ViewButton();
+        button310.setName("显式登录");
+        button310.setType("view");
+        button310.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_userinfo&state=validCode/"+diyDomain+"#wechat_redirect");
+        ViewButton button320 = new ViewButton();
+        button320.setName("隐式登录");
+        button320.setType("view");
+        button320.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http:mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_base&state=validCodeSilently/"+diyDomain+"#wechat_redirect");
+
+        Button button30 = new Button();
+        button30.setName("企业个人"); //将11/12两个button作为二级菜单封装第一个一级菜单
+        button30.setSub_button(new Button[]{button310,button320});
 
         ViewButton button32 = new ViewButton();
         button32.setName("政府入口");
         button32.setType("view");
-        button32.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx550aceeb3b9271a4&redirect_uri=http://127.0.0.1/index.html&response_type=code&scope=snsapi_userinfo&state=momo#wechat_redirect");
+        button32.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://127.0.0.1/index.html&response_type=code&scope=snsapi_userinfo&state=validCode/"+diyDomain+"#wechat_redirect");
 
         ClickButton button11 = new ClickButton();
-        button11.setName("了解亲清家园");
+        button11.setName("关于亲清");
         button11.setType("click");
         button11.setKey("11");
         ViewButton button12 = new ViewButton();
@@ -372,10 +391,10 @@ public class WXUtil {
         button12.setType("view");
         button12.setUrl("http://51xt.com.cn");
         Button button33 = new Button();
-        button33.setName("亲清家园"); //将11/12两个button作为二级菜单封装第一个一级菜单
+        button33.setName("亲清动态"); //将11/12两个button作为二级菜单封装第一个一级菜单
         button33.setSub_button(new Button[]{button11, button12});
 
-        menu.setButton(new Button[]{button31, button32, button33});// 将Button直接作为一级菜单
+        menu.setButton(new Button[]{button30, button32, button33});// 将Button直接作为一级菜单
         return menu;
 
     }

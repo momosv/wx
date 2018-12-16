@@ -19,9 +19,9 @@ public class TestUtil {
 
     @AuthIgnore
     @RequestMapping("ex")
-    public  void diy() throws DiyException {
+    public  void diy() throws Exception {
 
-        throw new DiyException("默默这个笨蛋");
+        throw new Exception("默默这个笨蛋");
     }
     @ResponseBody
     @AuthIgnore

@@ -68,14 +68,6 @@ public class WxCtrl {
         return "success";
     }
 
-    @RequestMapping("createMenu")
-    public String createMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String menu = JSONObject.toJSONString(WXUtil.initMenu());
-        System.out.println(menu);
-        WXUtil.createMenu(WXUtil.getAccessToken(request.getParameter("appId")).getToken(),menu);
-        return "success";
-    }
-
     @PostMapping("access")
     public String doPost(HttpServletRequest request, HttpServletResponse response)
 

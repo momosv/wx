@@ -29,7 +29,7 @@
                              targetProject=".\src\main\java" type="XMLMAPPER" />
 
 
-        <table tableName="tb_exception_log" domainObjectName="tbExceptionLog"
+        <table tableName="sys_account" domainObjectName="SysAccount"
                enableInsert="false"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
@@ -37,8 +37,17 @@
                enableDeleteByExample="false"
                enableCountByExample="false"
                enableUpdateByExample="false">
-            <columnOverride column="is_view" javaType="java.lang.Integer"/>
         </table>
+        <!--<table tableName="tb_exception_log" domainObjectName="tbExceptionLog"-->
+               <!--enableInsert="false"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="false"-->
+               <!--enableDeleteByPrimaryKey="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false">-->
+            <!--<columnOverride column="is_view" javaType="java.lang.Integer"/>-->
+        <!--</table>-->
         <!--<table tableName="wx_security" domainObjectName="WxSecurityPO"-->
                <!--enableInsert="false"-->
                <!--enableSelectByExample="false"-->

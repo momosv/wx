@@ -1,12 +1,14 @@
 package com.cn.xt.mp.wxSecurity.wxentity;
 
+import java.io.Serializable;
+
 /**
  * @author linshengwen
  * @version 1.0
  * @description
  * @date 2018/11/28 16:27
  **/
-public class AccessToken {
+public class AccessToken implements Serializable{
       private  Integer   expiresIn;
       private  String   token;
       private Long createTime;

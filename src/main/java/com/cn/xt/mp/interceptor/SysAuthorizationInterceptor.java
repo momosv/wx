@@ -56,11 +56,7 @@ public class SysAuthorizationInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
-        if(!RedisUtils.hasKey(token)){
-            throw new DiyException("在线状态已过期");
-        }
-        //延长状态
-        RedisUtils.expire(Constants.SYS_TOKEN+"::"+token,7200);
+
         return true;
     }
 }

@@ -1,17 +1,17 @@
 package com.cn.xt.mp;
 
 import com.cn.xt.mp.base.exception.DiyException;
-import com.cn.xt.mp.wxSecurity.util.TestUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import java.io.IOException;
 
-
-@EnableRedisHttpSession // redis 共享session
+@EnableCaching //redis 普通缓存
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds= 7200)// redis 共享session
 @SpringBootApplication
 public class WxApplication  extends SpringBootServletInitializer {
 

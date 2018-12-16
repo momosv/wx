@@ -26,22 +26,37 @@
         function silentGetOpenId(){
             var code = getQueryString("code");
             var diyDomain = getQueryString("state");
+            if(code == "" || code == null || code == undefined){ // "",null,undefined
+                alert("请从公众号菜单进入页面访问");
+                window.close();
+            }
             $.ajax({
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/wxSecurity/company/validCode/'+diyDomain ,
+                url : '/wxSecurity/company/'+diyDomain ,
                 dataType : "json",
                 data:{code:code},
                 error : function() {
                     alert('smx失败 ');
                 },
                 success : function(data) {
-                    alert(data.openid);
+                    if(data.code==-1){
+                        alert(data.msg);
+                    }else if(data.code!=0){
+                        alert("m");
+                       var diyDomain = data.extend.state;
+                       var apppId = data.extend.appId;
+                       window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+apppId+"&redirect_uri=" +
+                            "http://mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_userinfo&state="+diyDomain+"#wechat_redirect";
+                    }
+                    console.log(data);
                 }
 
             });
         }
+
+
 
         function getUserInfo(access_token,openid){
             $.ajax({

@@ -1,10 +1,12 @@
 mybatis:
   readonly-mapper-locations:
-      - classpath*:/mapper/*.xml # 数组，用 -  接收
+      - classpath*:/mapper/BasicMapper.xml # 数组，用 -  接收
       - classpath*:/mapper/readonlyMapper/*.xml # 数组，用 -  接收
+   #   - classpath*:/mapper/mapper/*.xml # 数组，用 -  接收
   mapper-locations:
-      - classpath*:/mapper/*.xml
+      - classpath*:/mapper/BasicMapper.xml
       - classpath*:/mapper/mapper/*.xml # 数组，用 -  接收
+   #   - classpath*:/mapper/readonlyMapper/*.xml # 数组，用 -  接收
   type-aliases-package: com.cn.xt.mp.mpModel
   config-location: classpath:mybatis-config.xml
 

@@ -20,12 +20,12 @@ import org.springframework.stereotype.Service;
 public class WxUserInfoServiceImpl extends BasicServiceImpl implements IWxUserInfoService {
 
     @Autowired
-    WxUserInfoPOMapper WxUserInfoPOMapper;
+    WxUserInfoPOMapper wxUserInfoPOMapper;
     @Autowired
     ReadonlyWxUserInfoPOMapper readonlyWxUserInfoPOMapper;
     @Autowired
     public void setWxUserInfoPOMapper(){
-        this.setMapper(WxUserInfoPOMapper);
+        this.setMapper(wxUserInfoPOMapper);
     }
 
     @Override
