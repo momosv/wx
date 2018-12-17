@@ -56,9 +56,9 @@
             // beta: true,// 必须这么写，否则在微信插件有些jsapi会有问题
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: "wx550aceeb3b9271a4", // 必填，公众号的唯一标识
-            nonceStr: "f3e31ef6-6eb5-4fca-8de4-3d3b674740fe", // 必填，生成签名的随机串
-            signature: "5834d368dc9e4a0dcf7e8c31d7a75bca7412cb9d",// 必填，签名，见附录17fadcd90ae138429a4de8e30b1278b0949cf8709
-            timestamp: 1545030367, // 必填，生成签名的时间戳
+            nonceStr: "a6ca99a1-83ff-4071-b19f-37fd66a79cb4",
+            signature :"300ae9b6db149250f300cfb36e052af16372ad9b",
+            timestamp :1545052143,
             jsApiList: [ 'checkJsApi', 'onMenuShareAppMessage',
                 'onMenuShareWechat', 'startRecord', 'stopRecord',
                 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice',
@@ -149,9 +149,9 @@
 
                             $.ajax({
                                 type : "POST",
-                                url : "http://se9mxs.natappfree.cc/weixin_gz/uploadimg",
+                                url : "/upload/uploadWxImg",
                                 data : {
-                                    serverId : res.serverId
+                                    serverId : res.serverId,diy:diyDomain
                                 },
                                 dataType : "text",
                                 success : function(data) {

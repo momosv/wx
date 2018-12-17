@@ -365,7 +365,7 @@ public class WxHttpHelper {
                     //6.1 输出流
                     //6.1.1获取文件名，拼接文件路径
                     String fileName=getFileName(response);
-                    fileDir=fileDir+fileName;
+                    fileDir=fileDir+"/"+fileName;
                     file = new File(fileDir);
                     //6.1.2根据文件路径获取输出流
                     FileOutputStream output = new FileOutputStream(file);

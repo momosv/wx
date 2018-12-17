@@ -153,12 +153,11 @@ public class WxSecurityCtrl {
     @ApiImplicitParams({
             @ApiImplicitParam(name="diy",value="公众号唯一标识",dataType="string", paramType = "query",example="mp",required = true)})
     @RequestMapping("getJsWxConfig/{diy}")
-   public Msg getJsWxConfig(@PathVariable String diy) throws Exception {
+   public Msg getJsWxConfig(@PathVariable String diy,String url) throws Exception {
         WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
         if(security == null){
             return Msg.fail("公众号diy信息获取失败，可能该公众号配置尚未接入");
         }
-       String url = "http://mp.tylerrrkd.com:9029/html/uploadImg.html?diy=mp";
         JsapiTicket jt=JsapiUtil.getJsapiTicket(security.getAppId());
         String ticket=jt.getTicket();
         Map<String, String> t= Sign.sign(ticket,security.getAppId(), url.toString());

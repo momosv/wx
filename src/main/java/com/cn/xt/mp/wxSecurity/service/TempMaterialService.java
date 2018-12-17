@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-
+import org.springframework.stereotype.Service;
 
 
 /**@desc  :  素材管理
@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSONObject;
  * @description
  * @date 2018/12/17 11:16
  **/
+@Service
 public class TempMaterialService {
     private static final Logger logger = LogManager.getLogger(TempMaterialService.class);
 

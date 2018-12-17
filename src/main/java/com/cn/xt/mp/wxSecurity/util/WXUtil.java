@@ -381,11 +381,11 @@ public class WXUtil {
         ViewButton button310 = new ViewButton();
         button310.setName("显式登录");
         button310.setType("view");
-        button310.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_userinfo&state=validCode/"+diyDomain+"#wechat_redirect");
+        button310.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://mp.tylerrrkd.com:9029/mp/index.html&response_type=code&scope=snsapi_userinfo&state=validCode/"+diyDomain+"#wechat_redirect");
         ViewButton button320 = new ViewButton();
         button320.setName("隐式登录");
         button320.setType("view");
-        button320.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_base&state=validCodeSilently/"+diyDomain+"#wechat_redirect");
+        button320.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://mp.tylerrrkd.com:9029/mp/index.html&response_type=code&scope=snsapi_base&state=validCodeSilently/"+diyDomain+"#wechat_redirect");
 
         Button button30 = new Button();
         button30.setName("企业个人"); //将11/12两个button作为二级菜单封装第一个一级菜单

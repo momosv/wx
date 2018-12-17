@@ -47,16 +47,16 @@ public class FileController {
     public TempMaterialService tempMaterialService;
 
 
-    @RequestMapping("uploadWxImg")
+    @RequestMapping("uploadWxImg")//"-i2CnFk8_pBQoXMu0lUeedzF3t2rNUwRtJpWoaXfJLXI7jVUpcYI0Ts0izYSnjsq"
     public Msg uploadWxImg(String diy,String serverId) throws Exception {
       AccessToken token = WXUtil.getAccessTokenByDiyDomain(diy);
-        File file0 =new File(ROOT+"/"+diy);
+        File file0 =new File(ROOT+"/"+diy+"/");
         if  (!file0.exists()){
             file0 .mkdirs();
         }
 
-        TempMaterialService.getTempMaterial(token.getToken(),serverId,file0.getPath());
-            return Msg.success();
+        File file =  TempMaterialService.getTempMaterial(token.getToken(),"-i2CnFk8_pBQoXMu0lUeedzF3t2rNUwRtJpWoaXfJLXI7jVUpcYI0Ts0izYSnjsq",file0.getPath());
+        return Msg.success().add("path",file.getPath());
     }
 
     //显示图片的方法关键 匹配路径像 localhost:8080/b7c76eb3-5a67-4d41-ae5c-1642af3f8746.png
