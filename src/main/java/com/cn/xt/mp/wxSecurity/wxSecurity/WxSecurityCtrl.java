@@ -14,9 +14,8 @@ import com.cn.xt.mp.service.IWxUserInfoService;
 import com.cn.xt.mp.vo.CompanyUserVO;
 
 import com.cn.xt.mp.service.IWxSecurityService;
-import com.cn.xt.mp.wxSecurity.util.Message;
-import com.cn.xt.mp.wxSecurity.util.MessageUtil;
-import com.cn.xt.mp.wxSecurity.util.WXUtil;
+import com.cn.xt.mp.wxSecurity.util.*;
+import com.cn.xt.mp.wxSecurity.wxentity.js.JsapiTicket;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -144,9 +143,48 @@ public class WxSecurityCtrl {
         request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN+"::"+webToken,companyUserVO);
         response.setHeader(Constants.COMPANY_USER_TOKEN,webToken);
         return Msg.success().add("companyUser",companyUserVO).add(Constants.COMPANY_USER_TOKEN,webToken)
-                .add("isAccess",true)
-               ;
+                .add("isAccess",true);
     }
+
+
+
+    @AuthIgnore
+    @ApiOperation(value = "获取JsSDKWxConfig",notes = "获取JsSDKWxConfig")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="diy",value="公众号唯一标识",dataType="string", paramType = "query",example="mp",required = true)})
+    @RequestMapping("getJsWxConfig/{diy}")
+   public Msg getJsWxConfig(@PathVariable String diy) throws Exception {
+        WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
+        if(security == null){
+            return Msg.fail("公众号diy信息获取失败，可能该公众号配置尚未接入");
+        }
+       String url = "http://mp.tylerrrkd.com:9029/html/uploadImg.html?diy=mp";
+        JsapiTicket jt=JsapiUtil.getJsapiTicket(security.getAppId());
+        String ticket=jt.getTicket();
+        Map<String, String> t= Sign.sign(ticket,security.getAppId(), url.toString());
+        return Msg.success().add("sign",t);
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     /**

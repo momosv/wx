@@ -23,9 +23,10 @@
             if (r != null) return unescape(r[2]); return null;
         }
 
+         diyDomain = "";
         function silentGetOpenId(){
             var code = getQueryString("code");
-            var diyDomain = getQueryString("state");
+             diyDomain = getQueryString("state");
             if(code == "" || code == null || code == undefined){ // "",null,undefined
                 alert("请从公众号菜单进入页面访问");
                 window.close();
@@ -45,7 +46,7 @@
                         alert(data.msg);
                     }else if(data.code!=0){
                         alert("m");
-                       var diyDomain = data.extend.state;
+                        diyDomain = data.extend.state;
                        var apppId = data.extend.appId;
                        window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+apppId+"&redirect_uri=" +
                             "http://mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_userinfo&state="+diyDomain+"#wechat_redirect";
@@ -56,6 +57,10 @@
             });
         }
 
+        function test(){
+            arr=diyDomain.split("/");
+            window.location.href="html/uploadImg.html?diy="+arr[1];
+        }
 
 
         function getUserInfo(access_token,openid){
@@ -81,5 +86,7 @@
 </head>
 <body>
 aaa
+
+<a onclick="test()">test</a>
 </body>
 </html>

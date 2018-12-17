@@ -3,6 +3,7 @@ package com.cn.xt.mp.wxSecurity.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.exception.DiyException;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
 import com.cn.xt.mp.base.util.SpringUtil;
@@ -219,6 +220,19 @@ public class WXUtil {
      *
      * @return 返回拿到的access_token及有效期
      */
+    public static AccessToken getAccessTokenByDiyDomain(String diy) throws Exception {
+        WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);
+        if(security == null){
+           throw new NullPointerException("公众号diy信息获取失败，可能该公众号配置尚未接入");
+        }
+        return getAccessToken(security.getAppId());
+    }
+
+    /**
+     * 获取AccessToken
+     *
+     * @return 返回拿到的access_token及有效期
+     */
     public static AccessToken getAccessToken(String appId) throws Exception {
         if (RedisUtils.hasKey("appId::" + appId)) {
             Object object =  RedisUtils.get("appId::" + appId);
@@ -371,7 +385,7 @@ public class WXUtil {
         ViewButton button320 = new ViewButton();
         button320.setName("隐式登录");
         button320.setType("view");
-        button320.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http:mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_base&state=validCodeSilently/"+diyDomain+"#wechat_redirect");
+        button320.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appId+"&redirect_uri=http://mp.tylerrrkd.com:9029/index.html&response_type=code&scope=snsapi_base&state=validCodeSilently/"+diyDomain+"#wechat_redirect");
 
         Button button30 = new Button();
         button30.setName("企业个人"); //将11/12两个button作为二级菜单封装第一个一级菜单

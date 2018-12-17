@@ -2,8 +2,12 @@ package com.cn.xt.mp.fileServer.controller;
 
 
 import com.cn.xt.mp.base.entity.Msg;
+import com.cn.xt.mp.base.interfaces.AuthIgnore;
 import com.cn.xt.mp.base.util.DatePattern;
 import com.cn.xt.mp.base.util.XDateUtils;
+import com.cn.xt.mp.wxSecurity.service.TempMaterialService;
+import com.cn.xt.mp.wxSecurity.util.WXUtil;
+import com.cn.xt.mp.wxSecurity.wxentity.AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
 
+@AuthIgnore
 @CrossOrigin("*")
 @RestController
 @RequestMapping("upload")
@@ -36,6 +41,22 @@ public class FileController {
     @Autowired
     public FileController(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    @Autowired
+    public TempMaterialService tempMaterialService;
+
+
+    @RequestMapping("uploadWxImg")
+    public Msg uploadWxImg(String diy,String serverId) throws Exception {
+      AccessToken token = WXUtil.getAccessTokenByDiyDomain(diy);
+        File file0 =new File(ROOT+"/"+diy);
+        if  (!file0.exists()){
+            file0 .mkdirs();
+        }
+
+        TempMaterialService.getTempMaterial(token.getToken(),serverId,file0.getPath());
+            return Msg.success();
     }
 
     //显示图片的方法关键 匹配路径像 localhost:8080/b7c76eb3-5a67-4d41-ae5c-1642af3f8746.png
