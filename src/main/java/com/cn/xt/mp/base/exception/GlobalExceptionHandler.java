@@ -72,7 +72,7 @@ public class GlobalExceptionHandler{
                 exceptionLogService.insertExceptionLogSelective(log);
                 LOGGER.info(">>>>>>系统异常，记录异常信息到数据库------end------");
         } catch (Exception ex) {
-           ExceptionCenter.insertExceptionLog(ex,null,this.getClass().getSimpleName(),"server");
+           ExceptionCenter.insertExceptionLog(ex,null,this.getClass().getSimpleName(),"server",null);
         }finally {
             if (e instanceof AuthException) {
                 return Msg.fail().add("msg", e.getMessage());

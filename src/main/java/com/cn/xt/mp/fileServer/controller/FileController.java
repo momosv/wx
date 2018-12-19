@@ -34,7 +34,7 @@ public class FileController {
 
     private static final Logger log = LoggerFactory.getLogger(FileController.class);
 
-    public static final String ROOT = "upload-dir";
+    public static final String UPLOAD_DIR_ROOT = "upload-dir";
 
     private final ResourceLoader resourceLoader;
 
@@ -50,7 +50,7 @@ public class FileController {
     @RequestMapping("uploadWxImg")//"-i2CnFk8_pBQoXMu0lUeedzF3t2rNUwRtJpWoaXfJLXI7jVUpcYI0Ts0izYSnjsq"
     public Msg uploadWxImg(String diy,String serverId) throws Exception {
       AccessToken token = WXUtil.getAccessTokenByDiyDomain(diy);
-        File file0 =new File(ROOT+"/"+diy+"/");
+        File file0 =new File(UPLOAD_DIR_ROOT +"/"+diy+"/");
         if  (!file0.exists()){
             file0 .mkdirs();
         }
@@ -62,7 +62,7 @@ public class FileController {
     //显示图片的方法关键 匹配路径像 localhost:8080/b7c76eb3-5a67-4d41-ae5c-1642af3f8746.png
     @RequestMapping(value = "/{type}/{upLoadUser}/{filename:.+}")
     public ResponseEntity<?> getFile(@PathVariable String filename,@PathVariable String type,@PathVariable String upLoadUser) {
-       String path = Paths.get(ROOT+"/"+type+"/"+upLoadUser, filename).toString();
+       String path = Paths.get(UPLOAD_DIR_ROOT +"/"+type+"/"+upLoadUser, filename).toString();
         try {
             return ResponseEntity.ok(resourceLoader.getResource("file:" + path ));
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class FileController {
     @RequestMapping( value = "up/{upLoadUser}")
     public Object handleFileUpload(@RequestParam("file") MultipartFile file,@PathVariable @RequestParam(defaultValue = "default") String type,@PathVariable @RequestParam(defaultValue = "default")String upLoadUser,
                                    RedirectAttributes redirectAttributes, HttpServletRequest request) throws IOException {
-      //  Files.delete(Paths.get(ROOT, "momo.jpg"));
+      //  Files.delete(Paths.get(UPLOAD_DIR_ROOT, "momo.jpg"));
         String fileName="";
         testExcel(null);
 
@@ -93,12 +93,12 @@ public class FileController {
         if (!file.isEmpty()) {
             type = file.getContentType().split("/")[0];
             fileName= XDateUtils.dateToString(new Date(), DatePattern.DATE_TIME_FULL_NUM.getPattern())+file.getOriginalFilename();
-            File file0 =new File(ROOT+"/"+type+"/"+upLoadUser);
+            File file0 =new File(UPLOAD_DIR_ROOT +"/"+type+"/"+upLoadUser);
             if  (!file0 .exists()  && !file0 .isDirectory()){
-               log.info("路径:"+ROOT+"/"+type+"/"+upLoadUser+" 不存在");
+               log.info("路径:"+ UPLOAD_DIR_ROOT +"/"+type+"/"+upLoadUser+" 不存在");
                 file0 .mkdirs();
             }
-            Files.copy(file.getInputStream(),  Paths.get(ROOT+"/"+type+"/"+upLoadUser, fileName));
+            Files.copy(file.getInputStream(),  Paths.get(UPLOAD_DIR_ROOT +"/"+type+"/"+upLoadUser, fileName));
             return Msg.success().add("url","/upload/"+type+"/"+upLoadUser+"/"+fileName);
         }
         return Msg.fail("上传的文件为空");
@@ -132,10 +132,10 @@ public class FileController {
 //        row3.createCell(3).setCellValue(78);
 //        //.....省略部分代码
 //
-//        FileOutputStream output=new FileOutputStream(ROOT+"/workbook.xlsx");
+//        FileOutputStream output=new FileOutputStream(UPLOAD_DIR_ROOT+"/workbook.xlsx");
 //        wb.write(output);
 //        output.close();
-//        //Files.copy(output,  Paths.get(ROOT, "workbook.xls"));
+//        //Files.copy(output,  Paths.get(UPLOAD_DIR_ROOT, "workbook.xls"));
 //        //输出Excel文件
     }
 

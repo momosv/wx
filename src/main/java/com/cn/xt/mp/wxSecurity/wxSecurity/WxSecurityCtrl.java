@@ -111,10 +111,9 @@ public class WxSecurityCtrl {
             companyUserVO.setId(tbCompanyUser.getId());
         }
         String webToken = MD5Util.encrypt(companyUserVO.getId()+UUID.randomUUID().toString());
-        RedisUtils.set(Constants.COMPANY_USER_TOKEN+"::"+webToken,companyUserVO,7200,TimeUnit.SECONDS);
         request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN,webToken);
-        response.setHeader(Constants.COMPANY_USER_TOKEN,webToken);
-        return Msg.success().add("companyUser",companyUserVO).add("companyUserToken",webToken);
+        request.getSession().setAttribute(Constants.COMPANY_USER,companyUserVO);
+        return Msg.success().add(Constants.COMPANY_USER,companyUserVO).add("companyUserToken",webToken);
     }
 
     @ApiOperation(value = "隐式获取用户信息",notes = "获取用户信息")
@@ -140,9 +139,8 @@ public class WxSecurityCtrl {
         }
         String webToken = MD5Util.encrypt(companyUserVO.getId()+UUID.randomUUID().toString());
         request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN,webToken);
-        request.getSession().setAttribute(Constants.COMPANY_USER_TOKEN+"::"+webToken,companyUserVO);
-        response.setHeader(Constants.COMPANY_USER_TOKEN,webToken);
-        return Msg.success().add("companyUser",companyUserVO).add(Constants.COMPANY_USER_TOKEN,webToken)
+        request.getSession().setAttribute(Constants.COMPANY_USER,companyUserVO);
+        return Msg.success().add(Constants.COMPANY_USER,companyUserVO).add(Constants.COMPANY_USER_TOKEN,webToken)
                 .add("isAccess",true);
     }
 
@@ -306,7 +304,7 @@ public class WxSecurityCtrl {
 
     @ApiIgnore()
     @RequestMapping("sendTemplateMessage")
-    public Object sendTemplateMessage(String token,String openid) throws IOException {
+    public Object sendTemplateMessage(String token,String openid) throws Exception {
        return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
     }
     @ApiIgnore()

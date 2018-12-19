@@ -29,7 +29,9 @@
                              targetProject=".\src\main\java" type="XMLMAPPER" />
 
 
-        <table tableName="sys_account" domainObjectName="SysAccount"
+
+
+        <table tableName="message_template" domainObjectName="MessageTemplate"
                enableInsert="false"
                enableSelectByExample="false"
                enableUpdateByPrimaryKey="false"
@@ -37,7 +39,18 @@
                enableDeleteByExample="false"
                enableCountByExample="false"
                enableUpdateByExample="false">
+            <columnOverride column="message_type" javaType="java.lang.Integer"/>
         </table>
+
+        <!--<table tableName="sys_account" domainObjectName="SysAccount"-->
+               <!--enableInsert="false"-->
+               <!--enableSelectByExample="false"-->
+               <!--enableUpdateByPrimaryKey="false"-->
+               <!--enableDeleteByPrimaryKey="false"-->
+               <!--enableDeleteByExample="false"-->
+               <!--enableCountByExample="false"-->
+               <!--enableUpdateByExample="false">-->
+        <!--</table>-->
         <!--<table tableName="tb_exception_log" domainObjectName="tbExceptionLog"-->
                <!--enableInsert="false"-->
                <!--enableSelectByExample="false"-->
@@ -140,6 +153,7 @@
                 <!--enableCountByExample="false"-->
                 <!--enableUpdateByExample="false">-->
             <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
+            <!--<columnOverride column="create_type" javaType="java.lang.Integer"/>-->
         <!--</table>-->
         <!--<table  tableName="tb_feedback_record" domainObjectName="TbFeedbackRecord"-->
                 <!--enableInsert="false"-->

@@ -53,9 +53,7 @@ public class WxAuthorizationInterceptor extends HandlerInterceptorAdapter {
             token = request.getParameter(Constants.COMPANY_USER_TOKEN);
             if(StringUtils.isEmpty(token)){
                 Object obj = request.getSession().getAttribute(Constants.COMPANY_USER_TOKEN);
-                if(null!=obj){
-                    token=obj.toString();
-                }else {
+                if(null==obj){
                     throw new DiyException(HttpStatus.UNAUTHORIZED.getReasonPhrase());
                 }
             }

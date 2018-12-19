@@ -10,7 +10,7 @@
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/sys/login' ,
+                url : '/mp/sys/login' ,
                 dataType : "json",
                 data:{account:"admin",psw:""},
                 error : function() {
@@ -33,7 +33,7 @@
                 async : false,
                 cache : false,
                 type : 'POST',
-                url : '/sys/createMenu/'+$("#diy").val(),
+                url : '/mp/sys/createMenu/'+$("#diy").val(),
                 dataType : "json",
                 data:{menu:$("#menu").text()},
                 error : function() {

@@ -39,7 +39,7 @@ public class WxCtrl {
 
 
     @RequestMapping("sendTemplateMessage")
-    public Object sendTemplateMessage(String token,String openid) throws IOException {
+    public Object sendTemplateMessage(String token,String openid) throws Exception {
        return  WXUtil.sendTemplateMessage(WXUtil.TOKEN,null);
     }
     @RequestMapping("getUserInfo")

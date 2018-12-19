@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.exception.DiyException;
+import com.cn.xt.mp.base.exception.ExceptionCenter;
 import com.cn.xt.mp.base.redis.util.RedisUtils;
 import com.cn.xt.mp.base.util.SpringUtil;
 import com.cn.xt.mp.mpModel.WxSecurityPO;
@@ -165,7 +166,7 @@ public class WXUtil {
     }
 
 
-    public static Object sendTemplateMessage(String accessToken, WeChatTemplate weChatTemplate) {
+    public static Object sendTemplateMessage(String accessToken, WeChatTemplate weChatTemplate) throws Exception {
         String jsonString = JSONObject.toJSONString(weChatTemplate);
         weChatTemplate = new WeChatTemplate();
         weChatTemplate.setTemplate_id("vHfhjBgslHV9DfHWRvvukHME6R5ykiMHmSN5PNMPmLI");
@@ -189,29 +190,30 @@ public class WXUtil {
         remark.setValue("此处应有掌声");
         m.put("remark", remark);
         weChatTemplate.setData(m);
-        try {
-            WXUtil.sendTemplateMessage2(TOKEN, weChatTemplate);
-            weChatTemplate.setTouser("orXeJ1EVNi1d8_0kgebkkQB-bn_g");//此处是用户的OpenId);
-            return WXUtil.sendTemplateMessage2(TOKEN, weChatTemplate);
-        } catch (Exception e) {
-        }
-        return "faild";
+        return WXUtil.sendTemplateMessage2("wx550aceeb3b9271a4", weChatTemplate);
+
     }
 
-    public static JSONObject sendTemplateMessage2(String accessToken, WeChatTemplate weChatTemplate) throws Exception {
+    public static JSONObject sendTemplateMessage2(String appid, WeChatTemplate weChatTemplate) throws Exception {
+        AccessToken token =  getAccessToken(appid);
         String jsonString = JSONObject.toJSONString(weChatTemplate);
-        String requestUrl = SEND_TEMPLAYE_MESSAGE_URL.replace("ACCESS_TOKEN", accessToken);//发送 post请求 发送json数据   
+        String requestUrl = SEND_TEMPLAYE_MESSAGE_URL.replace("ACCESS_TOKEN", token.getToken());//发送 post请求 发送json数据   
         //发送 post请求 发送json数据
-        JSONObject json = doPostStr(requestUrl, jsonString);
         String errmsg = null;
-        Integer result = null;
-        if (json != null) {
-            result = json.getInteger("errcode");
-            errmsg = json.getString("errmsg");
+        Integer errcode = 0;
+        JSONObject json= null;
+        try {
+            for(int i=0;i<3;i++){
+                json = doPostStr(requestUrl, jsonString);
+                if (json != null&& errcode == json.getInteger("errcode")) {
+                    break;
+                }
+                ExceptionCenter.insertExceptionLog(new Exception(),"模板消息发送消息失败",jsonString);
+            }
+        }catch (Exception e){
+            ExceptionCenter.insertExceptionLog(e,"模板消息发送消息失败",jsonString);
         }
-        System.out.println(result + errmsg);
         return json;
-
     }
 
 
@@ -449,6 +451,22 @@ public class WXUtil {
         System.out.println(jsonObject);
         return jsonObject;
     }
+      public static WxSecurityPO getWxSecurityByAppId(String appId) throws Exception {
+        WxSecurityPO securityPO = wxSecurityService.getWxSecurityByAppId(appId);
+        if(securityPO==null){
+          throw new NullPointerException("公众号信息获取异常");
+        }
+       return securityPO;
+    }
+    public static WxSecurityPO getWxSecurityByDomain(String domain) throws Exception {
+        WxSecurityPO securityPO = wxSecurityService.getWxSecurityByDoMain(domain);
+        if(securityPO==null){
+            throw new NullPointerException("公众号信息获取异常");
+        }
+        return securityPO;
+    }
+
+
 
 }
 

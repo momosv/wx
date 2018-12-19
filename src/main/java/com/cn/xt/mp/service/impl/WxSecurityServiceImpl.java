@@ -37,6 +37,7 @@ public class WxSecurityServiceImpl extends BasicServiceImpl implements IWxSecuri
      * @throws Exception
      */
     @Override
+    @Cacheable(cacheNames="getWxSecurityByAppId",key="#appId")
     public WxSecurityPO getWxSecurityByAppId(String appId) throws Exception {
         BasicExample example = new BasicExample(WxSecurityPO.class);
         example.createCriteria().andVarEqualTo("app_id",appId);

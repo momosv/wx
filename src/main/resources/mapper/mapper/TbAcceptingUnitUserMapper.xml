@@ -14,9 +14,10 @@
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
     <result column="grade" property="grade" jdbcType="TINYINT" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, openid, account, psw, accepting_id, phone, email, name, sex, type, parent_id, 
+    id, openid, account, psw, accepting_id, phone, email, name, sex, type, parent_id, headimgurl
     grade
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

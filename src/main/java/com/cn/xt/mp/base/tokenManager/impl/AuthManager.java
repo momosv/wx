@@ -1,12 +1,14 @@
 package com.cn.xt.mp.base.tokenManager.impl;
 
 
+import com.cn.xt.mp.base.entity.Tips;
 import com.cn.xt.mp.base.tokenManager.*;
 
 
 import com.cn.xt.mp.base.util.Constants;
 
 import com.cn.xt.mp.base.entity.UserInfoPO;
+import com.cn.xt.mp.vo.CompanyUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -48,7 +50,7 @@ public class AuthManager {
         String token=request.getAttribute(Constants.COMPANY_USER_TOKEN).toString();
         UserInfoPO userInfo=tokenManager.getUserInfoByToken(token);
         if(userInfo==null){
-            throw new AuthException("该用户已过期"+"|"+ HttpStatus.UNAUTHORIZED.value());
+            throw new AuthException("在线状态已过期"+"|"+ HttpStatus.UNAUTHORIZED.value());
         }
         refreshUserInfo();
         return userInfo;
@@ -70,5 +72,15 @@ public class AuthManager {
         HttpServletRequest request=getRequest();
         String token=request.getAttribute(Constants.COMPANY_USER_TOKEN).toString();
         tokenManager.loginOff(token);
+    }
+
+    public CompanyUserVO getCompanyUser() throws Exception {
+        CompanyUserVO companyUserVO;
+        try {
+            companyUserVO = (CompanyUserVO) getRequest().getSession().getAttribute(Constants.COMPANY_USER);
+        }catch (Exception e){
+            throw new Exception(Tips.COMPANY_USER_NULL.getDesc());
+        }
+        return companyUserVO;
     }
 }

@@ -1,6 +1,8 @@
 package com.cn.xt.mp.mpModel;
 
 import com.cn.xt.mp.base.mybatis.model.IBaseDBPO;
+import com.cn.xt.mp.base.util.Constants;
+import com.cn.xt.mp.base.util.RandomUtils;
 
 import java.util.Date;
 
@@ -17,6 +19,34 @@ public class TbFeedbackRecord  extends IBaseDBPO {
     private Integer type;
 
     private String creator;
+
+    private String headimgurl;
+
+    private String creatorBureau;
+
+    public TbFeedbackRecord(TbFeedback feeback, Constants.RECORD record) {
+        this.id=RandomUtils.getUUID32();
+        this.feedbackId=feeback.getId();
+        this.createTime=feeback.getCreateTime();
+        this.content=record.getDesc();
+        this.type=record.getCode();
+    }
+
+    public String getHeadimgurl() {
+        return headimgurl;
+    }
+
+    public void setHeadimgurl(String headimgurl) {
+        this.headimgurl = headimgurl;
+    }
+
+    public String getCreatorBureau() {
+        return creatorBureau;
+    }
+
+    public void setCreatorBureau(String creatorBureau) {
+        this.creatorBureau = creatorBureau;
+    }
 
     public String getId() {
         return id;

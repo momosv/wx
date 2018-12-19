@@ -29,9 +29,9 @@ public class SwaggerConfiguration {
     public Docket createMonitorRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
-                .groupName("实时监测")
+                .groupName("手机端政府和企业")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.lishiots.dc.monitor.ctl"))
+                .apis(RequestHandlerSelectors.basePackage("com.cn.xt.mp.mobile"))
                 .paths(PathSelectors.any())
                 .build();
     }

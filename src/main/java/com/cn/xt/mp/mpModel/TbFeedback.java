@@ -1,8 +1,10 @@
 package com.cn.xt.mp.mpModel;
 
+import com.cn.xt.mp.base.mybatis.model.IBaseDBPO;
+
 import java.util.Date;
 
-public class TbFeedback {
+public class TbFeedback extends IBaseDBPO {
     private String id;
 
     private String code;
@@ -23,7 +25,7 @@ public class TbFeedback {
 
     private Date createTime;
 
-    private Byte createType;
+    private Integer createType;
 
     private String companyId;
 
@@ -109,11 +111,11 @@ public class TbFeedback {
         this.createTime = createTime;
     }
 
-    public Byte getCreateType() {
+    public Integer getCreateType() {
         return createType;
     }
 
-    public void setCreateType(Byte createType) {
+    public void setCreateType(Integer createType) {
         this.createType = createType;
     }
 

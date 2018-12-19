@@ -150,6 +150,9 @@ public class XDateUtils {
 	public static String nowToString() {
 		return nowToString(DatePattern.DATE_TIME);
 	}
+	public static String nowToFullString() {
+		return nowToString(DatePattern.DATE_TIME_FULL_NUM);
+	}
 
 	/**
 	 * 获取系统当前时间，指定格式
