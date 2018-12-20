@@ -3,7 +3,6 @@ package com.cn.xt.mp.interceptor;
 
 import com.cn.xt.mp.base.exception.DiyException;
 import com.cn.xt.mp.base.interfaces.AuthIgnore;
-import com.cn.xt.mp.base.redis.util.RedisUtils;
 import com.cn.xt.mp.base.util.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

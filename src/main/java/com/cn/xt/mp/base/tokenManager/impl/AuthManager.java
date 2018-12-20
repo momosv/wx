@@ -2,12 +2,9 @@ package com.cn.xt.mp.base.tokenManager.impl;
 
 
 import com.cn.xt.mp.base.entity.Tips;
-import com.cn.xt.mp.base.tokenManager.*;
-
-
-import com.cn.xt.mp.base.util.Constants;
-
 import com.cn.xt.mp.base.entity.UserInfoPO;
+import com.cn.xt.mp.base.tokenManager.TokenManager;
+import com.cn.xt.mp.base.util.Constants;
 import com.cn.xt.mp.vo.CompanyUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 
 @Component("authManager")
@@ -45,12 +41,12 @@ public class AuthManager {
      * 获取该访问用户信息
      * @return
      */
-    public UserInfoPO getUserInfo() throws AuthException {
+    public UserInfoPO getUserInfo() throws Exception {
         HttpServletRequest request=getRequest();
         String token=request.getAttribute(Constants.COMPANY_USER_TOKEN).toString();
         UserInfoPO userInfo=tokenManager.getUserInfoByToken(token);
         if(userInfo==null){
-            throw new AuthException("在线状态已过期"+"|"+ HttpStatus.UNAUTHORIZED.value());
+            throw new Exception("在线状态已过期"+"|"+ HttpStatus.UNAUTHORIZED.value());
         }
         refreshUserInfo();
         return userInfo;

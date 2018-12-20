@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -61,7 +60,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         //token凭证为空
         if(StringUtils.isEmpty(token)){
-            throw new AuthException(Constants.COMPANY_USER_TOKEN + "不能为空"+"|"+ HttpStatus.UNAUTHORIZED.value());
+            throw new DiyException(Constants.COMPANY_USER_TOKEN + "不能为空"+"|"+ HttpStatus.UNAUTHORIZED.value());
         }
         if(!RedisUtils.hasKey(token)){
             throw new DiyException("登录已经过期");

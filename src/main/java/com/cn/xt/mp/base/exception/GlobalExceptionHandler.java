@@ -1,13 +1,9 @@
 package com.cn.xt.mp.base.exception;
 
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.util.IPUtils;
-import com.cn.xt.mp.base.util.ObjectMapUtils;
-import com.cn.xt.mp.base.util.SpringUtil;
 import com.cn.xt.mp.mpModel.TbExceptionLog;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.method.HandlerMethod;
 
-import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -74,9 +68,7 @@ public class GlobalExceptionHandler{
         } catch (Exception ex) {
            ExceptionCenter.insertExceptionLog(ex,null,this.getClass().getSimpleName(),"server",null);
         }finally {
-            if (e instanceof AuthException) {
-                return Msg.fail().add("msg", e.getMessage());
-            }
+
             return  Msg.fail().add("msg",StringUtils.isEmpty(e.getMessage())?"系统出现异常":e.getMessage());
         }
     }

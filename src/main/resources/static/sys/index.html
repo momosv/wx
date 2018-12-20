@@ -35,7 +35,7 @@
                 type : 'POST',
                 url : '/mp/sys/createMenu/'+$("#diy").val(),
                 dataType : "json",
-                data:{menu:$("#menu").text()},
+                data:{menu:$("#menu").val()},
                 error : function() {
                     alert('smx失败 ');
                 },
