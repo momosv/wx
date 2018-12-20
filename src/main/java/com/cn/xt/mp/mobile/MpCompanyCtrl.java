@@ -7,10 +7,16 @@ import com.cn.xt.mp.base.util.Constants;
 import com.cn.xt.mp.base.util.DatePattern;
 import com.cn.xt.mp.base.util.RandomUtils;
 import com.cn.xt.mp.base.util.XDateUtils;
+import com.cn.xt.mp.dao.dao.TbFeedbackMapper;
+import com.cn.xt.mp.dao.readonlydao.ReadonlyTbCompanyUserMapper;
+import com.cn.xt.mp.dao.readonlydao.ReadonlyTbFeedbackMapper;
 import com.cn.xt.mp.mpModel.TbFeedback;
+import com.cn.xt.mp.mpModel.TbFeedbackRecord;
 import com.cn.xt.mp.service.ICompanyUserService;
+import com.cn.xt.mp.service.IFeedbackRecordService;
 import com.cn.xt.mp.service.impl.CompanyUserServiceImpl;
 import com.cn.xt.mp.vo.CompanyUserVO;
+import com.cn.xt.mp.vo.TbFeedbackVO;
 import com.cn.xt.mp.wxSecurity.service.TempMaterialService;
 import com.cn.xt.mp.wxSecurity.wxentity.message.TemplateData;
 import com.cn.xt.mp.wxSecurity.wxentity.message.WeChatTemplate;
@@ -27,7 +33,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author linshengwen
@@ -46,6 +54,16 @@ public class MpCompanyCtrl extends BaseController {
 
     @Autowired
     public ICompanyUserService companyUserService;
+
+    @Autowired
+    public IFeedbackRecordService feedbackRecordService;
+
+    @Autowired
+    public ReadonlyTbCompanyUserMapper readonlyTbCompanyUserMapper;
+    @Autowired
+    public ReadonlyTbFeedbackMapper readonlyTbFeedbackMapper;
+    @Autowired
+    public TbFeedbackMapper tbFeedbackMapper;
 
 
     @ApiOperation(value = "企业用户提交反馈单",notes = "获取用户信息")
@@ -69,24 +87,54 @@ public class MpCompanyCtrl extends BaseController {
         return Msg.success("保存成功");
     }
 
-    @RequestMapping("getFeedback/{id}")
-    public Msg getFeedback(@PathVariable String id) throws Exception {
+    @GetMapping("getFeedbackDetail/{id}")
+    public Msg getFeedbackDetail(@PathVariable String id) throws Exception {
         CompanyUserVO userVO = getCompanyUser();
+        TbFeedbackVO feedback = companyUserService.selectByPrimaryKey(TbFeedbackVO.class,id);
+        if(null == feedback){
+              return Msg.fail("反馈单不存在或已被删除");
+        }
+        List<TbFeedbackRecord> records = feedbackRecordService.getFeedbackRecordByFbId(id);
+        feedback.setRecords(records);
+        if(feedback.getType() == Constants.RECORD.ACCEPT.getCode()){//说明处理完
+            List<TbFeedbackRecord> collect = records.stream().filter(e -> e.getType() == Constants.RECORD.ACCEPT.getCode()).collect(Collectors.toList());
+            if(collect!=null&&collect.size()>0){
+                feedback.setReplyRecord(collect.get(0));
+            }
+        }
 
+        return Msg.success().add("feedback",feedback);
+    }
 
-
-
-
+    @PostMapping("updateFeedback")
+    public Msg updateFeedback(TbFeedback feedback) throws Exception {
+        CompanyUserVO userVO = getCompanyUser();
+        if(StringUtils.isEmpty(feedback.getTitle())||StringUtils.isEmpty(feedback.getContent())){
+            return  Msg.fail(Tips.FEEBACK_MAIN_NULL.getCode(),Tips.FEEBACK_MAIN_NULL.getDesc());
+        }
+        TbFeedbackVO feedback0 = companyUserService.selectByPrimaryKey(TbFeedbackVO.class,feedback.getId());
+        if(null == feedback0){
+            return Msg.fail("反馈单不存在或已被删除");
+        }
+        companyUserService.updateOne(feedback,true);
         return Msg.success();
     }
 
-    @RequestMapping("updateFeedback/{id}")
-    public Msg updateFeedback(TbFeedback feeback){
-        return Msg.success();
-    }
-
-    @RequestMapping("deleteFeedback/{id}")
-    public Msg deleteFeedback(TbFeedback feeback){
+    @RequestMapping("deleteFeedback")
+    public Msg deleteFeedback(@PathVariable String[] id) throws Exception {
+        CompanyUserVO userVO = getCompanyUser();
+        if(id.length<1){
+            return  Msg.fail("删除的id不能为空");
+        }
+        List<TbFeedback> tbFeedbacks = companyUserService.selectByPrimaryKey(TbFeedback.class, id);
+        if(tbFeedbacks != null & tbFeedbacks.size()>0){
+            List<TbFeedback> collect = tbFeedbacks.stream().filter(e -> !e.getCreator().equals(userVO.getOpenid())).collect(Collectors.toList());
+            if(collect != null & collect.size()>0){
+                return  Msg.fail("不能删除非自己创建的反馈单");
+            }
+        }else {
+            return  Msg.fail("删除的数据不存在");
+        }
         return Msg.success();
     }
 

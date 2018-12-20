@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.xt.mp.dao.readonlydao.ReadonlyTbFeedbackRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.xt.mp.mpModel.TbFeedbackRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="feedback_id" property="feedbackId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="creator_bureau" property="creatorBureau" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, feedback_id, create_time, content, type, creator,headimgurl,creator_bureau
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_feedback_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

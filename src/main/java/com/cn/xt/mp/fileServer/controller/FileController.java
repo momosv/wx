@@ -34,7 +34,7 @@ public class FileController {
 
     private static final Logger log = LoggerFactory.getLogger(FileController.class);
 
-    public static final String UPLOAD_DIR_ROOT = "upload-dir";
+    public static final String UPLOAD_DIR_ROOT = "/opt/upload-dir";
 
     private final ResourceLoader resourceLoader;
 

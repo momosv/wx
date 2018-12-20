@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.xt.mp.dao.readonlydao.ReadonlyTbFeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.xt.mp.mpModel.TbFeedback" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="reply" property="reply" jdbcType="VARCHAR" />
+    <result column="incident_time" property="incidentTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_type" property="createType" jdbcType="TINYINT" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="accepting_unit_id" property="acceptingUnitId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, code, title, content, img, reply, incident_time, type, creator, create_time, 
+    create_type, company_id, accepting_unit_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_feedback
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+</mapper>
