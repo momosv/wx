@@ -23,7 +23,7 @@
 //
 //    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
 //
-//    @Pointcut("execution(* com.cn.xt.mp.mobile.*.*(..))")
+//    @Pointcut("execution(* com.cn.xt.mp.feedback.mobile.*.*(..))")
 //    public void webLog() {
 //    }
 //

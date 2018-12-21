@@ -15,7 +15,7 @@
                 driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
 
 
-        <javaModelGenerator targetPackage="com.cn.xt.mp.mpModel"
+        <javaModelGenerator targetPackage="com.cn.xt.mp.feedback.mpModel"
                             targetProject=".\src\main\java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
@@ -25,7 +25,7 @@
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
         <!--     <collection property="user_id" resultMap="cn.momosv.springboot.dao.TbTestMapper.BaseResultMap"></collection> -->
-        <javaClientGenerator targetPackage="com.cn.xt.mp.dao.dao"
+        <javaClientGenerator targetPackage="com.cn.xt.mp.feedback.dao.dao"
                              targetProject=".\src\main\java" type="XMLMAPPER" />
 
 

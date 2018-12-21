@@ -4,7 +4,7 @@ package com.cn.xt.mp.base.exception;
 import com.alibaba.fastjson.JSON;
 import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.util.IPUtils;
-import com.cn.xt.mp.mpModel.TbExceptionLog;
+import com.cn.xt.mp.feedback.mpModel.TbExceptionLog;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

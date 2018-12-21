@@ -1,11 +1,10 @@
 package com.cn.xt.mp.base.exception;
 
 import com.cn.xt.mp.base.util.SpringUtil;
-import com.cn.xt.mp.mpModel.TbExceptionLog;
+import com.cn.xt.mp.feedback.mpModel.TbExceptionLog;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Parameter;
 import java.util.Date;
 
 /**

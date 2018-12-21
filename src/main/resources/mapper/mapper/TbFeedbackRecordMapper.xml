@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cn.xt.mp.dao.dao.TbFeedbackRecordMapper" >
-  <resultMap id="BaseResultMap" type="com.cn.xt.mp.mpModel.TbFeedbackRecord" >
+<mapper namespace="com.cn.xt.mp.feedback.dao.dao.TbFeedbackRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.cn.xt.mp.feedback.mpModel.TbFeedbackRecord" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="feedback_id" property="feedbackId" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />

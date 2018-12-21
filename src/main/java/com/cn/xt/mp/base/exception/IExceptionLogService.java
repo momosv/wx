@@ -1,8 +1,7 @@
 package com.cn.xt.mp.base.exception;
 
 import com.cn.xt.mp.base.mybatis.service.BasicService;
-import com.cn.xt.mp.mpModel.TbExceptionLog;
-import org.springframework.stereotype.Service;
+import com.cn.xt.mp.feedback.mpModel.TbExceptionLog;
 
 /**
  * @author linshengwen

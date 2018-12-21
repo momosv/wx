@@ -36,7 +36,7 @@ import java.util.List;
  */
 
 @AutoConfigureAfter(DatasourceConfig.class)
-@MapperScan(value={"com.cn.xt.mp.dao.readonlydao"},sqlSessionFactoryRef="readonlySqlSessionFactory")
+@MapperScan(value={"com.cn.xt.mp.feedback.dao.readonlydao"},sqlSessionFactoryRef="readonlySqlSessionFactory")
 @Configuration
 @EnableTransactionManagement
 @ConfigurationProperties(prefix = "mybatis")

@@ -1,8 +1,8 @@
 package com.cn.xt.mp.base.exception;
 
 import com.cn.xt.mp.base.mybatis.service.impl.BasicServiceImpl;
-import com.cn.xt.mp.dao.dao.TbExceptionLogMapper;
-import com.cn.xt.mp.mpModel.TbExceptionLog;
+import com.cn.xt.mp.feedback.dao.dao.TbExceptionLogMapper;
+import com.cn.xt.mp.feedback.mpModel.TbExceptionLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

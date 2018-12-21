@@ -5,7 +5,7 @@ import com.cn.xt.mp.base.entity.Tips;
 import com.cn.xt.mp.base.entity.UserInfoPO;
 import com.cn.xt.mp.base.tokenManager.TokenManager;
 import com.cn.xt.mp.base.util.Constants;
-import com.cn.xt.mp.vo.CompanyUserVO;
+import com.cn.xt.mp.feedback.vo.CompanyUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

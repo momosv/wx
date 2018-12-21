@@ -7,7 +7,7 @@ mybatis:
       - classpath*:/mapper/BasicMapper.xml
       - classpath*:/mapper/mapper/*.xml # 数组，用 -  接收
    #   - classpath*:/mapper/readonlyMapper/*.xml # 数组，用 -  接收
-  type-aliases-package: com.cn.xt.mp.mpModel
+  type-aliases-package: com.cn.xt.mp.feedback.mpModel
   config-location: classpath:mybatis-config.xml
 
       #    order: 1

@@ -20,7 +20,7 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 .groupName("mp用户信息授权接口")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.cn.xt.mp.wxSecurity.wxSecurity"))
+                .apis(RequestHandlerSelectors.basePackage("com.cn.xt.mp.feedback.wxSecurity.wxSecurity"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -31,7 +31,7 @@ public class SwaggerConfiguration {
                 .apiInfo(apiInfo())
                 .groupName("手机端政府和企业")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.cn.xt.mp.mobile"))
+                .apis(RequestHandlerSelectors.basePackage("com.cn.xt.mp.feedback.mobile"))
                 .paths(PathSelectors.any())
                 .build();
     }
