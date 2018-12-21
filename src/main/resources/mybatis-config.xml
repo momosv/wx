@@ -32,6 +32,7 @@
 		<setting name="localCacheScope" value="SESSION" />
 		<!-- 默认为OTHER,为了解决oracle插入null报错的问题要设置为NULL -->
 		<setting name="jdbcTypeForNull" value="NULL" />
+		<setting name="callSettersOnNulls" value="true"/>
 		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
 
 

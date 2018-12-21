@@ -47,7 +47,7 @@ public class FileController {
     public TempMaterialService tempMaterialService;
 
 
-    @RequestMapping("uploadWxImg")//"-i2CnFk8_pBQoXMu0lUeedzF3t2rNUwRtJpWoaXfJLXI7jVUpcYI0Ts0izYSnjsq"
+    @RequestMapping("uploadWxImg")//"-i2CnFk8_pBQoXMu0lUeedzF3t2rNUwRtJpWoaXfJLXI7jVUpcYI0Ts0izYSnjsq"Wi8mSDt-tcMnnMTPlN4YflZz24qPieMs2q0YA2s0x_eikuduCKFM8mL087OQiClI
     public Msg uploadWxImg(String diy,String serverId) throws Exception {
       AccessToken token = WXUtil.getAccessTokenByDiyDomain(diy);
         File file0 =new File(UPLOAD_DIR_ROOT +"/"+diy+"/");
@@ -55,7 +55,7 @@ public class FileController {
             file0 .mkdirs();
         }
 
-        File file =  TempMaterialService.getTempMaterial(token.getToken(),"-i2CnFk8_pBQoXMu0lUeedzF3t2rNUwRtJpWoaXfJLXI7jVUpcYI0Ts0izYSnjsq",file0.getPath());
+        File file =  TempMaterialService.getTempMaterial(token.getToken(),serverId,file0.getPath());
         return Msg.success().add("path",file.getPath());
     }
 

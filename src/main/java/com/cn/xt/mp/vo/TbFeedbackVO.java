@@ -33,6 +33,25 @@ public class TbFeedbackVO extends IBaseDBPO {
 
     private String acceptingUnitId;
 
+    private Integer replyType;
+    private Date updateTime;
+
+    public Integer getReplyType() {
+        return replyType;
+    }
+
+    public void setReplyType(Integer replyType) {
+        this.replyType = replyType;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     private TbFeedbackRecord replyRecord;
 
     List<TbFeedbackRecord> records;
@@ -163,11 +182,11 @@ public class TbFeedbackVO extends IBaseDBPO {
 
     public String _getPKColumnName(){
         return "id";
-    };
+    }
 
     public Object _getPKValue(){
         return id;
-    };
+    }
 
     public void _setPKValue(Object var){
         id =  var.toString();

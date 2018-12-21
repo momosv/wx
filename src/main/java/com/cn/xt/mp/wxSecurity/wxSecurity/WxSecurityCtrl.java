@@ -158,7 +158,7 @@ public class WxSecurityCtrl {
         }
         JsapiTicket jt=JsapiUtil.getJsapiTicket(security.getAppId());
         String ticket=jt.getTicket();
-        Map<String, String> t= Sign.sign(ticket,security.getAppId(), url.toString());
+        Map<String, String> t= Sign.sign(ticket,security.getAppId(), url);
         return Msg.success().add("sign",t);
    }
 

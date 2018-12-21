@@ -52,7 +52,6 @@ public class CompanyUserServiceImpl extends BasicServiceImpl implements ICompany
 
     @Autowired
     public void setTbCompanyUserMapper(){
-
         this.setMapper(tbCompanyUserMapper);
     }
 

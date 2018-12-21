@@ -70,4 +70,5 @@ spring:
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       druidLoginName: momo # 登录druid的账号
       druidPassword: momo # 登录druid的密码
-
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss

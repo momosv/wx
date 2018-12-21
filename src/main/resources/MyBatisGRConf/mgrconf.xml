@@ -154,6 +154,7 @@
                 <!--enableUpdateByExample="false">-->
             <!--<columnOverride column="type" javaType="java.lang.Integer"/>-->
             <!--<columnOverride column="create_type" javaType="java.lang.Integer"/>-->
+            <!--<columnOverride column="record_type" javaType="java.lang.Integer"/>-->
         <!--</table>-->
         <!--<table  tableName="tb_feedback_record" domainObjectName="TbFeedbackRecord"-->
                 <!--enableInsert="false"-->

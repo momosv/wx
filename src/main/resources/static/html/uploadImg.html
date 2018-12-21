@@ -24,7 +24,7 @@
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: '/wxSecurity/getJsWxConfig/' + diyDomain,
+                    url: '/mp/wxSecurity/getJsWxConfig/' + diyDomain,
                     dataType: "json",
                     data:{url:window.location.href},
                     error: function () {
@@ -45,7 +45,7 @@
             }
         }
 
- //   wxdata.get_data();
+//  wxdata.get_data();
     </script>
 
     <script type="text/javascript">
@@ -56,9 +56,9 @@
             // beta: true,// 必须这么写，否则在微信插件有些jsapi会有问题
             debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
             appId: "wx550aceeb3b9271a4", // 必填，公众号的唯一标识
-            nonceStr: "a6ca99a1-83ff-4071-b19f-37fd66a79cb4",
-            signature :"300ae9b6db149250f300cfb36e052af16372ad9b",
-            timestamp :1545052143,
+            nonceStr: "7b11a335-e1bf-4c2a-ae08-c3c5945a787f",
+            signature :"a251da0cb8c14909d30dc50e988de56666354fa1",
+            timestamp :1545363572,
             jsApiList: [ 'checkJsApi', 'onMenuShareAppMessage',
                 'onMenuShareWechat', 'startRecord', 'stopRecord',
                 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice',
@@ -149,7 +149,7 @@
 
                             $.ajax({
                                 type : "POST",
-                                url : "/upload/uploadWxImg",
+                                url : "/mp/upload/uploadWxImg",
                                 data : {
                                     serverId : res.serverId,diy:diyDomain
                                 },

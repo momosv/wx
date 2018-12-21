@@ -31,6 +31,11 @@ public class FeedbackRecordServiceImpl extends BasicServiceImpl implements IFeed
     @Autowired
     public ReadonlyTbFeedbackRecordMapper readonlyTbFeedbackRecordMapper;
 
+    @Autowired
+    private void setMapper(){
+        setMapper(tbFeedbackRecordMapper);
+    }
+
     @Override
     public List<TbFeedbackRecord> getFeedbackRecordByFbId(String fbId){
 

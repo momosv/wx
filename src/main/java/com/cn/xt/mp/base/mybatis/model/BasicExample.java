@@ -241,7 +241,6 @@ public class BasicExample <T extends IBaseDBPO>{
 		}
 
 		public Criteria andJoin(String var) {
-			var = RegexUtils.humpToLine(var);
 			addCriterion(var);
 			return (Criteria) this;
 		}
@@ -297,6 +296,22 @@ public class BasicExample <T extends IBaseDBPO>{
 		public Criteria andVarLike(String var, String value) {
 			var = RegexUtils.humpToLine(var);
 			addCriterion(var + " like", value, var);
+			return (Criteria) this;
+		}
+		public Criteria andVarLeftLike(String var, String value) {
+			var = RegexUtils.humpToLine(var);
+			addCriterion(var + " like", value+"%", var);
+			return (Criteria) this;
+		}
+
+		public Criteria andVarRightLike(String var, String value) {
+			var = RegexUtils.humpToLine(var);
+			addCriterion(var + " like","%" + value, var);
+			return (Criteria) this;
+		}
+		public Criteria andVarFullLike(String var, String value) {
+			var = RegexUtils.humpToLine(var);
+			addCriterion(var + " like","%" + value+"%", var);
 			return (Criteria) this;
 		}
 

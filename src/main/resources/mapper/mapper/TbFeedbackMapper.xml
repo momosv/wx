@@ -12,12 +12,14 @@
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="create_type" property="createType" jdbcType="TINYINT" />
+    <result column="record_type" property="recordType" jdbcType="TINYINT" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="accepting_unit_id" property="acceptingUnitId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, code, title, content, img, reply, incident_time, type, creator, create_time, 
+    id, code, title, content, img, reply, incident_time, type, creator, create_time, update_time,record_type,
     create_type, company_id, accepting_unit_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

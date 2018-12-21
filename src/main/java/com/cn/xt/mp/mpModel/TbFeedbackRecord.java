@@ -24,6 +24,10 @@ public class TbFeedbackRecord  extends IBaseDBPO {
 
     private String creatorBureau;
 
+    public TbFeedbackRecord() {
+
+    }
+
     public TbFeedbackRecord(TbFeedback feeback, Constants.RECORD record) {
         this.id=RandomUtils.getUUID32();
         this.feedbackId=feeback.getId();

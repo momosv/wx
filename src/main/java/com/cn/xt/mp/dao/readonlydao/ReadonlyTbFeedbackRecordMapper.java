@@ -12,6 +12,6 @@ import java.util.List;
 public interface ReadonlyTbFeedbackRecordMapper extends BasicMapper {
     TbFeedbackRecord selectByPrimaryKey(String id);
 
-    @Select("select * from Tb_feedback_record where feedback_id = #{fbId} order by create_time desc")
+    @Select("select * from tb_feedback_record where feedback_id = #{fbId} order by create_time desc")
     List<TbFeedbackRecord> getFeedbackRecordByFbId(@Param("fbId") String fbId);
 }

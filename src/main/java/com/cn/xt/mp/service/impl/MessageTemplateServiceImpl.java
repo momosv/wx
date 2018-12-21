@@ -17,8 +17,13 @@ import org.springframework.stereotype.Service;
 @Service("messageTemplateService")
 public class MessageTemplateServiceImpl  extends BasicServiceImpl implements IMessageTemplateService {
 
+
     @Autowired
-    MessageTemplateMapper messageTemplateMapper;
+     private MessageTemplateMapper messageTemplateMapper;
+    @Autowired
+    private void setMapper(){
+        setMapper(messageTemplateMapper);
+    }
 
     @Override
    @Cacheable(cacheNames="messageTemplate",key="#appId+#messageType")

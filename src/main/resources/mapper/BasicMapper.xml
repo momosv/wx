@@ -212,7 +212,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <select id="selectByPrimaryKey" resultType="java.util.Map"  parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey0" resultType="java.util.Map"  parameterType="java.lang.String" >
     select *  from ${tbName}
 		where ${pkName} in
 		<foreach collection="pks" item="pk" open="(" close=")"

@@ -138,7 +138,7 @@ public class BasicServiceImpl implements BasicService {
 	public <T extends IBaseDBPO, E extends BasicExample>List<T> selectByPrimaryKey(Class<T> clazz,String[] ids) throws Exception{
 		if(ids==null||ids.length<=0)return new ArrayList<>();
 		T t=clazz.newInstance();
-		List<Map> mapL=  basicMapper.selectByPrimaryKey(ids,t._getPKColumnName(),t._getTableName());
+		List<Map> mapL=  basicMapper.selectByPrimaryKey0(ids,t._getPKColumnName(),t._getTableName());
 		List<T> list=new ArrayList<>();
 	    for(Map map:mapL) {
 	    	T t1=(T) ObjectMapUtils.mapToObject(map, clazz, true);

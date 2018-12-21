@@ -31,6 +31,25 @@ public class TbFeedback extends IBaseDBPO {
 
     private String acceptingUnitId;
 
+    private Integer replyType;
+    private Date updateTime;
+
+    public Integer getReplyType() {
+        return replyType;
+    }
+
+    public void setReplyType(Integer replyType) {
+        this.replyType = replyType;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     public String getId() {
         return id;
     }
