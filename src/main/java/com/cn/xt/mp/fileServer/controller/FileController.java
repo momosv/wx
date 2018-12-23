@@ -55,10 +55,8 @@ public class FileController {
         if  (!file0.exists()){
             file0 .mkdirs();
         }
-        String awaitCodeImg = WxImgUtil.saveImg(company.getAwaitCodeImg(),accessToken.getToken(),security.getDiyDomain());
-        File file =  TempMaterialService.getTempMaterial(token.getToken(),serverId,UPLOAD_DIR_ROOT +"/"+diy+"/");
-        String s= file.getPath().toString().substring(16);
-        return Msg.success().add("path",s);
+        String awaitCodeImg = WxImgUtil.saveImg(serverId,token.getToken(),diy);
+        return Msg.success().add("path",awaitCodeImg);
     }
 
     //显示图片的方法关键 匹配路径像 localhost:8080/b7c76eb3-5a67-4d41-ae5c-1642af3f8746.png

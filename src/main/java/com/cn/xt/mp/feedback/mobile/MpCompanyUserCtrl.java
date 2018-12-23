@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * @date 2018/12/11 15:40
  **/
 @Api(value = "MpCompanyUserCtrl",tags = "企业用户操作",description = "企业/个人信息设置")
-@RequestMapping("company/user")
+@RequestMapping("companyUser")
 @RestController
 public class MpCompanyUserCtrl extends BaseController {
 
@@ -139,7 +139,7 @@ public class MpCompanyUserCtrl extends BaseController {
             @ApiImplicitParam(name="await_code_img",value="营业执照（通过微信端提交，只需要serverId）",dataType="string", paramType = "query",required = true),
             @ApiImplicitParam(name="await_company_img",value="公司照片（通过微信端提交，只需要serverId）",dataType="string", paramType = "query",required = true),
     })
-    @RequestMapping("joinCompany")
+    @RequestMapping("editCompany")
     public Msg editCompany(TbCompany company ) throws Exception {
         CompanyUserVO userVO = getCompanyUser();
         WxSecurityPO security = WXUtil.getWxSecurityByAppId(userVO.getAppId());
@@ -161,28 +161,24 @@ public class MpCompanyUserCtrl extends BaseController {
             }
             company.setAwaitCompanyImg(awaitCompanyImg);
         }
-
-
         TbCompany company0  = companyUserService.selectByPrimaryKey(TbCompany.class,company.getId());
-
-
-
         if(null == company0){//新增
                 company0 = companyService.getCompanyByCode(company.getSocialCreditCode());
                 if(company0!=null){
                     return Msg.fail("当前存在机构【"+company0.getName()+"】,请通过加入方式选择机构");
                 }
             company.setId(RandomUtils.getUUID32());
-//            company.setCodeImg(awaitCodeImg);
-//            company.setCompanyImg(awaitCompanyImg);
+            company.setCodeImg(company.getAwaitCodeImg());
+            company.setCompanyImg(company.getAwaitCompanyImg());
+            company.setAuth(0);
             TbCompanyUser user = new TbCompanyUser();
             user.setId(userVO.getId());
             user.setCompanyId(company.getId());
             companyUserService.updateOne(user,true);
         }else{
-
+            company.setAuth(0);
+            companyUserService.updateOne(company,true);
         }
-
         return Msg.success().add("company",company);
     }
 

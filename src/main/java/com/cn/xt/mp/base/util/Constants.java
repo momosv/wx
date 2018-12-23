@@ -5,7 +5,7 @@ public class Constants {
     /**
      * 文件存储根路径
      */
-    public static final String UPLOAD_DIR_ROOT = "upload-dir";
+    public static final String UPLOAD_DIR_ROOT = "/opt/upload-dir";
 
     /**
      * feedback '1 用户提交 2 人工登记',
