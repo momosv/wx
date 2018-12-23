@@ -10,6 +10,7 @@ import com.cn.xt.mp.feedback.dao.readonlydao.ReadonlyTbCompanyUserMapper;
 import com.cn.xt.mp.feedback.mpModel.*;
 import com.cn.xt.mp.feedback.service.ICompanyUserService;
 import com.cn.xt.mp.feedback.service.IMessageTemplateService;
+import com.cn.xt.mp.feedback.util.WxImgUtil;
 import com.cn.xt.mp.feedback.vo.CompanyUserVO;
 import com.cn.xt.mp.feedback.wxSecurity.service.TempMaterialService;
 import com.cn.xt.mp.feedback.wxSecurity.util.WXUtil;
@@ -74,14 +75,7 @@ public class CompanyUserServiceImpl extends BasicServiceImpl implements ICompany
             if  (!file.exists()){
                 file .mkdirs();
             }
-          String img = Arrays.stream(serverId).map(e -> {
-                try {
-                  return  TempMaterialService.getTempMaterial(token.getToken(), e, path).getPath();
-                } catch (Exception e1) {
-                    ExceptionCenter.insertExceptionLog(e1, "新增feedback时收集serverId(img)异常",e);
-                    return "";
-                }
-            }).collect(Collectors.joining(","));
+            String img = WxImgUtil.saveImg(serverId,securityPO.getToken(),securityPO.getDiyDomain());
             feeback.setImg(img);
         }
         TbFeedbackRecord record = new TbFeedbackRecord(feeback,Constants.RECORD.PUT);

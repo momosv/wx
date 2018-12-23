@@ -8,10 +8,13 @@
     <result column="psw" property="psw" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="auth" property="auth" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, openid, account, psw, name, company_id, auth
+    id, openid, account, psw, name, company_id, auth,phone,address,email
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -89,6 +89,8 @@ public interface BasicMapper<T ,E> {
 	 */
 	public  int updateBatch(@Param("dataMap") Map<String, Object> map);
 
+	public  int update(@Param("dataMap") Map<String, Object> map);
+
 	/**
 	 *
 	 * @Title:插入

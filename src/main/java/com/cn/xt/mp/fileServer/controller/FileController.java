@@ -5,6 +5,7 @@ import com.cn.xt.mp.base.entity.Msg;
 import com.cn.xt.mp.base.interfaces.AuthIgnore;
 import com.cn.xt.mp.base.util.DatePattern;
 import com.cn.xt.mp.base.util.XDateUtils;
+import com.cn.xt.mp.feedback.util.WxImgUtil;
 import com.cn.xt.mp.feedback.wxSecurity.service.TempMaterialService;
 import com.cn.xt.mp.feedback.wxSecurity.util.WXUtil;
 import com.cn.xt.mp.feedback.wxSecurity.wxentity.AccessToken;
@@ -54,9 +55,10 @@ public class FileController {
         if  (!file0.exists()){
             file0 .mkdirs();
         }
-
-        File file =  TempMaterialService.getTempMaterial(token.getToken(),serverId,file0.getPath());
-        return Msg.success().add("path",file.getPath());
+        String awaitCodeImg = WxImgUtil.saveImg(company.getAwaitCodeImg(),accessToken.getToken(),security.getDiyDomain());
+        File file =  TempMaterialService.getTempMaterial(token.getToken(),serverId,UPLOAD_DIR_ROOT +"/"+diy+"/");
+        String s= file.getPath().toString().substring(16);
+        return Msg.success().add("path",s);
     }
 
     //显示图片的方法关键 匹配路径像 localhost:8080/b7c76eb3-5a67-4d41-ae5c-1642af3f8746.png

@@ -107,11 +107,8 @@ public class TempMaterialService {
     public static File getTempMaterial(String accessToken,String mediaId,String fileDir) throws Exception {
         //1.拼接请求url
         String url = GET_TEMPMATERIAL_URL.replace("ACCESS_TOKEN", accessToken).replace("MEDIA_ID", mediaId);
-
         //2.调用接口，发送请求，下载文件到本地
         File file=WxHttpHelper.downloadMedia(url, fileDir);
-        logger.info("fileName:"+file.getName());
-
         return file;
 
     }

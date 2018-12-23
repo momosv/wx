@@ -1,5 +1,7 @@
 package com.cn.xt.mp.feedback.wxSecurity.wxSecurity;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -10,6 +12,7 @@ import java.util.Arrays;
  * @description
  * @date 2018/11/28 11:24
  **/
+@ApiIgnore
 public class CheckUtil {
 
 

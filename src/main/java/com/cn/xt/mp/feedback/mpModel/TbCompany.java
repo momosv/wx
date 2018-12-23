@@ -21,13 +21,43 @@ public class TbCompany  extends IBaseDBPO {
 
     private String companyImg;
 
-    private String cpuntry;
+    private String awaitCodeImg;
+
+    private String awaitCompanyImg;
+
+    private String country;
 
     private String province;
 
     private String city;
 
     private String type;
+
+    private Integer auth;//0待审核，1审核，2重新编辑待审核
+
+    public Integer getAuth() {
+        return auth;
+    }
+
+    public void setAuth(Integer auth) {
+        this.auth = auth;
+    }
+
+    public String getAwaitCodeImg() {
+        return awaitCodeImg;
+    }
+
+    public void setAwaitCodeImg(String awaitCodeImg) {
+        this.awaitCodeImg = awaitCodeImg;
+    }
+
+    public String getAwaitCompanyImg() {
+        return awaitCompanyImg;
+    }
+
+    public void setAwaitCompanyImg(String awaitCompanyImg) {
+        this.awaitCompanyImg = awaitCompanyImg;
+    }
 
     public String getId() {
         return id;
@@ -101,12 +131,12 @@ public class TbCompany  extends IBaseDBPO {
         this.companyImg = companyImg == null ? null : companyImg.trim();
     }
 
-    public String getCpuntry() {
-        return cpuntry;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCpuntry(String cpuntry) {
-        this.cpuntry = cpuntry == null ? null : cpuntry.trim();
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
     }
 
     public String getProvince() {

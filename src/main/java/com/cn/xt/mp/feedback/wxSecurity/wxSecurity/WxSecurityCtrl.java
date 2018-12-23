@@ -57,7 +57,6 @@ public class WxSecurityCtrl {
      * @throws ServletException
      * @throws IOException
      */
-    @ApiIgnore()
     @GetMapping("access/{diy}")
     public String doGet(@PathVariable String diy, HttpServletRequest request, HttpServletResponse response) throws Exception {
         WxSecurityPO security = wxSecurityService.getWxSecurityByDoMain(diy);

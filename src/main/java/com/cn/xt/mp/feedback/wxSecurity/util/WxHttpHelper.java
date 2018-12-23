@@ -448,7 +448,15 @@ public class WxHttpHelper {
                 //6.取得请求内容
                 HttpEntity entity = response.getEntity();
 
+
                 if (entity != null) {
+                    String result = EntityUtils.toString(entity, "UTF-8");//HttpEntity转为字符串类型
+                    JSONObject  jsonObject = JSONObject.parseObject(result);//字符串类型转为JSON类型
+                    String errcode =jsonObject.getString("errcode");
+                    if(errcode!=null && errcode.equals("40007")){
+                        return null;
+                    }
+
                     //这里可以得到文件的类型 如image/jpg /zip /tiff 等等 但是发现并不是十分有效，有时明明后缀是.rar但是取到的是null，这点特别说明
                     System.out.println(entity.getContentType());
                     //可以判断是否是文件数据流

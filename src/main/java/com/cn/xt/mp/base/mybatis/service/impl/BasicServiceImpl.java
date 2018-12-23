@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class BasicServiceImpl implements BasicService {
@@ -266,9 +263,14 @@ public class BasicServiceImpl implements BasicService {
 	}
 	@Override
 	public <T extends IBaseDBPO, E extends BasicExample> int updateOne(T t,boolean selective) {
-		List<T> list=new ArrayList<>();
-		list.add(t);
-		return  this.updateBatch(list,selective);
+		Map<String, Object> map = new HashMap<>();
+		map.put("_tableName", t._getTableName());
+		map.put("_tablePKName", t._getPKColumnName());
+		Map<String, Object> fmap =getFieldMapValues(Arrays.asList(t),selective);
+		map.put("_PKs", fmap.get("_PKs"));
+		fmap.remove("_PKs");
+		map.put("_values", fmap);
+	    return 	basicMapper.update(map);
 	}
 
 	public Map<String,Object> getFieldAndName(Object o) {

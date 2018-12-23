@@ -172,6 +172,14 @@
 		</foreach>
 	</update>
 
+	<update id="update" parameterType="java.util.Map">
+		update ${dataMap._tableName} set
+		<foreach collection="dataMap._values" item="id_value_Map"
+				 index="key" separator=",">
+			${key}=#{_value}
+		</foreach>
+	</update>
+
 	<update id="updateByExample" parameterType="java.util.Map">
 		update ${dataMap._tableName} set
 		<foreach collection="dataMap.fieldData" item="value" index="key"
